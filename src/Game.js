@@ -1,18 +1,29 @@
 import * as THREE from 'three';
 
-var scene, camera, cube;
+import { OrbitControls } from './libs/OrbitControls.js';
+
+var scene, camera, cube, controls;
 
 export default class Game {
 
-  constructor() {
+  constructor(renderer) {
     scene = new THREE.Scene();
-	scene.background = new THREE.Color(0xf3f3f3);
+    scene.background = new THREE.Color(0xf3f3f3);
 	
     var width = window.innerWidth / 24;
     var height = window.innerHeight / 24;
     camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, -20, 500);
     camera.position.set(0, 10, 10); 
     camera.lookAt(0, 0, 0);
+
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    controls.dampingFactor = 0.05;
+    controls.screenSpacePanning = false;
+    controls.enableZoom = true;
+    controls.enablePan = false;
+    controls.minZoom = 0.5;
+    controls.maxZoom = 1;
 
     let light = new THREE.DirectionalLight(0xffffff, 0.8);
     var ambient = new THREE.AmbientLight(0xcccccc); // soft white light
@@ -26,8 +37,9 @@ export default class Game {
   }
 
   update(delta) {
-    cube.rotation.x += 0.5 * delta;
-    cube.rotation.z += 0.5 * delta;
+    controls.update();
+    //cube.rotation.x += 0.5 * delta;
+    //cube.rotation.z += 0.5 * delta;
   }
 
   render(renderer) {
