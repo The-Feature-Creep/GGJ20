@@ -2,7 +2,9 @@ import * as THREE from 'three';
 
 import Stats from './libs/stats.module.js';
 
-var container, stats, renderer;
+import Game from './Game';
+
+var container, stats, renderer, game;
 let lastTime = 0.0;
 
 init();
@@ -21,16 +23,17 @@ function init() {
   stats.domElement.style.top = '0px';
   container.appendChild( stats.domElement );
   //
+  game = new Game(renderer);
 }
 
 function update(time) {
   requestAnimationFrame(update);
-  //game.update(Math.min((time - lastTime) / 1000, 1 / 60));
+  game.update(Math.min((time - lastTime) / 1000, 1 / 60));
   render();
   stats.update();
   lastTime = time;
 }
 
 function render() {
-  //game.render(renderer);
+  game.render(renderer);
 }
