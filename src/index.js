@@ -23,7 +23,7 @@ function init() {
   stats.domElement.style.top = '0px';
   container.appendChild( stats.domElement );
   //
-  game = new Game(renderer);
+  game = new Game();
 }
 
 function update(time) {
