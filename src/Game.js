@@ -4,6 +4,8 @@ import { OrbitControls } from './libs/OrbitControls.js';
 
 var scene, camera, cube, controls;
 
+let count = 0;
+
 export default class Game {
 
   constructor(renderer) {
@@ -38,8 +40,13 @@ export default class Game {
 
   update(delta) {
     controls.update();
-    //cube.rotation.x += 0.5 * delta;
-    //cube.rotation.z += 0.5 * delta;
+
+    count++;
+
+    cube.position.x = Math.sin(count / 8);
+
+    cube.rotation.x += 0.5 * delta;
+    cube.rotation.z += 0.5 * delta;
   }
 
   render(renderer) {
