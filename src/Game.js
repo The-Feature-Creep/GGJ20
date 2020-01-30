@@ -2,9 +2,9 @@ import * as THREE from 'three';
 
 import { OrbitControls } from './libs/OrbitControls.js';
 
-var scene, camera, cube, controls;
+import Box from './Box';
 
-let count = 0;
+var scene, camera, boxes, controls;
 
 export default class Game {
 
@@ -14,8 +14,8 @@ export default class Game {
 	
     var width = window.innerWidth / 24;
     var height = window.innerHeight / 24;
-    camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, -20, 500);
-    camera.position.set(0, 10, 10); 
+    camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, -20, 1000);
+    camera.position.set(0, 30, 30); 
     camera.lookAt(0, 0, 0);
 
     controls = new OrbitControls(camera, renderer.domElement);
@@ -23,30 +23,27 @@ export default class Game {
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = false;
     controls.enableZoom = true;
-    controls.enablePan = false;
+    controls.enablePan = true;
     controls.minZoom = 0.5;
-    controls.maxZoom = 1;
+    controls.maxZoom = 5;
 
     let light = new THREE.DirectionalLight(0xffffff, 0.8);
     var ambient = new THREE.AmbientLight(0xcccccc); // soft white light
     scene.add(light);
     scene.add(ambient);
 
-    var geometry = new THREE.BoxGeometry(3, 3, 3);
-    var material = new THREE.MeshPhongMaterial({ color: 0xff896b, flatShading: true });
-    cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+	boxes = [];
+	for (let i = 0; i < 5; i++) {
+		boxes.push(new Box(scene));
+	}
   }
 
   update(delta) {
-    controls.update();
-
-    count++;
-
-    cube.position.x = Math.sin(count / 8);
-
-    cube.rotation.x += 0.5 * delta;
-    cube.rotation.z += 0.5 * delta;
+	controls.update();
+	boxes.forEach(box => {
+		box.update(delta);
+	});
+	    
   }
 
   render(renderer) {
