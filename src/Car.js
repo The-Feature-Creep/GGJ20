@@ -13,7 +13,7 @@ export default class Car extends THREE.Object3D {
     this.body = new CANNON.Body({
       mass: 20, // kg
       position: new CANNON.Vec3(x, y, z), // m
-      shape: new CANNON.Box(new CANNON.Vec3(3, 1.6, 4)),
+      shape: new CANNON.Box(this.getBB()),
       material: Car.physicsMaterial,
       linearDamping: 0.5,
       angularDamping: 0.6
@@ -24,9 +24,13 @@ export default class Car extends THREE.Object3D {
 
   }
 
+  getBB() {
+    return new CANNON.Vec3(1, 1, 1);
+  }
+
   update(delta) {
     this.position.x = this.body.position.x;
-    this.position.y = this.body.position.y;
+    this.position.y = this.body.position.y - 1;
     this.position.z = this.body.position.z;
     this.quaternion.x = this.body.quaternion.x;
     this.quaternion.y = this.body.quaternion.y;

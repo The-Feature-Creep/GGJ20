@@ -1,7 +1,14 @@
 import * as THREE from 'three';
+import * as CANNON from 'cannon';
+
 import Car from './Car';
 
-export default class Truck extends Car{
+export default class Truck extends Car {
+
+	getBB() {
+		return new CANNON.Vec3(2.5, 2, 5);
+	}
+
 	makeModel(){
 		var body_width = 26;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );

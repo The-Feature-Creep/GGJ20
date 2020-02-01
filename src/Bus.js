@@ -1,7 +1,14 @@
 import * as THREE from 'three';
+import * as CANNON from 'cannon';
+
 import Car from './Car';
 
-export default class Bus extends Car{
+export default class Bus extends Car {
+
+	getBB() {
+		return new CANNON.Vec3(2.5, 1.8, 7.8);
+	}
+
 	makeModel(){
 		var body_width = 26;
 		var window_width = 10;

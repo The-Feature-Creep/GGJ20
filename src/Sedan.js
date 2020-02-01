@@ -1,7 +1,13 @@
 import * as THREE from 'three';
+import * as CANNON from 'cannon';
+
 import Car from './Car';
 
 export default class Sedan extends Car {
+
+	getBB() {
+		return new CANNON.Vec3(2.5, 2, 4);
+	}
 	
 	makeModel(){
 		var body_width = 26;
