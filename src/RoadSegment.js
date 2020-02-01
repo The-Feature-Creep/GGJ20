@@ -16,14 +16,14 @@ export default class RoadSegment extends THREE.Object3D {
     {
       for (var j = 0; j <= 32; j++)
       {
-        var value = noise.simplex2(i / 12, j / 12) + 0.5;
+        var value = noise.simplex2(i / 24, j / 24) + 0.8;
 
-        if (i < 4 || j < 4 || i > 28 || j > 28)
+        if (i < 4 || i > 28)
         {
           value = 0;
         }
 
-        geometry.vertices[i * 33 + j].z += Math.min(0, value);
+        geometry.vertices[i * 33 + j].z += Math.min(0, value * 3);
       }
     }
 
