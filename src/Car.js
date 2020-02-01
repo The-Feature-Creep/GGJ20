@@ -44,7 +44,9 @@ export default class Car extends THREE.Object3D {
   }
 
   turn(dir) {
-    let speed = this.body.velocity.length() * 4;
+    let speed = Math.min(this.body.velocity.length() * 8, 20 - this.body.velocity.length());
+    //if (this.body.velocity.length() < 1)
+      //speed = 0;
     var quat = new CANNON.Quaternion();
     quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI/2 * dir * 0.001 * speed);
     this.body.quaternion = quat.mult(this.body.quaternion);

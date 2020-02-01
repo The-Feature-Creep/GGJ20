@@ -8,6 +8,7 @@ export default class Coin extends THREE.Object3D {
     super();
 
     var geometry = new THREE.CylinderBufferGeometry( 8, 8, 2, 32 );
+    geometry.rotateX(Math.PI/2);
     var material = new THREE.MeshPhongMaterial({ color: 0xffd271, flatShading: true });
     this.body = new THREE.Mesh(geometry, material);
     this.add(this.body);
@@ -17,11 +18,15 @@ export default class Coin extends THREE.Object3D {
     let genWidth = RoadSegment.WIDTH * 0.9;
     this.position.x = Math.random() * genWidth - genWidth/2;
     this.body.rotation.y = Math.random() * Math.PI;
+
+    this.scale.set(Coin.SCALE, Coin.SCALE, Coin.SCALE);
   }
 
   update(delta) {
 
-    this.body.rotation.y += 1.5 * delta;
+    this.body.rotation.y += 2 * delta;
 
   }
 }
+
+Coin.SCALE = 0.16;

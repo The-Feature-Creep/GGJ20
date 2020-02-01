@@ -72,7 +72,7 @@ export default class Game {
       var coin = new Coin();
       coin.position.z = i * RoadSegment.LENGTH * 2;
       coins.push(coin);
-      //scene.add(coin);
+      scene.add(coin);
     }
 
     // add player
