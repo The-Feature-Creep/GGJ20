@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import * as CANNON from 'cannon';
 
 import { OrbitControls } from './libs/OrbitControls.js';
 
@@ -48,6 +49,8 @@ export default class Game {
     cube = new THREE.Mesh(geometry, material);
     //scene.add(cube);
 
+    this.initPhysics();
+
     // generatre roads
     for (var i = 0; i < 10; i++)
     {
@@ -68,6 +71,23 @@ export default class Game {
     // add player
     player = new Car();
     scene.add(player);
+    cars.push(player);
+    this.world.add(player.body);
+  }
+
+  initPhysics() {
+    this.world = new CANNON.World();
+
+    var groundMaterial = new CANNON.Material("groundMaterial");
+    // Create a plane
+    var groundBody = new CANNON.Body({
+      mass: 0, // mass == 0 makes the body static
+      material: groundMaterial
+    });
+    var plane = new CANNON.Plane();
+    groundBody.addShape(plane);
+    groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0), -Math.PI/2);
+    this.world.addBody(groundBody);
   }
 
   update(delta) {
@@ -82,7 +102,11 @@ export default class Game {
     cube.rotation.z += 0.5 * delta;
 
     coins.forEach(coin => {
-        coin.update(delta);
+      coin.update(delta);
+    });
+
+    cars.forEach(car => {
+      car.update(delta);
     });
 
     if (input[keys.UP])
