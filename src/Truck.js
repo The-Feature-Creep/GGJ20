@@ -48,7 +48,7 @@ export default class Truck extends Car {
 		bonnet_shape.lineTo(15, 0);
 		bonnet_shape.lineTo(15, 10);
 		bonnet_shape.lineTo(0, 8);
-		var bonnet_extrudeSettings = { amount: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var bonnet_extrudeSettings = { depth: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var bonnet_geometry = new THREE.ExtrudeGeometry(bonnet_shape, bonnet_extrudeSettings);
 
 		let bonnet = new THREE.Mesh(bonnet_geometry, body_material);
@@ -64,7 +64,7 @@ export default class Truck extends Car {
 		main_body_shape.lineTo(20, 0);
 		main_body_shape.lineTo(18, 10);
 		main_body_shape.lineTo(3, 10);
-		var main_body_extrudeSettings = { amount: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var main_body_extrudeSettings = { depth: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var main_body_geometry = new THREE.ExtrudeGeometry(main_body_shape, main_body_extrudeSettings);
 
 		var main_body = new THREE.Mesh(main_body_geometry, body_material);
@@ -114,7 +114,7 @@ export default class Truck extends Car {
 		window1_shape.lineTo(19, 0);
 		window1_shape.lineTo(17, 9);
 		window1_shape.lineTo(4, 9);
-		var window1_extrudeSettings = { amount: body_width+0.2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var window1_extrudeSettings = { depth: body_width+0.2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var window1_geometry = new THREE.ExtrudeGeometry(window1_shape, window1_extrudeSettings);
 
 		var window1_body = new THREE.Mesh(window1_geometry, window_material);
@@ -129,7 +129,7 @@ export default class Truck extends Car {
 		window2_shape.lineTo(20.1, 0);
 		window2_shape.lineTo(18.2, 9);
 		window2_shape.lineTo(2.5, 9);
-		var window2_extrudeSettings = { amount: body_width-2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var window2_extrudeSettings = { depth: body_width-2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var window2_geometry = new THREE.ExtrudeGeometry(window2_shape, window2_extrudeSettings);
 
 		var window2_body = new THREE.Mesh(window2_geometry, window_material);

@@ -18,6 +18,7 @@ const PHYSICS_TIMESTEP = 1.0 / 60.0;
 const PHYSICS_SUBSTEPS = 4;
 const ROAD_SEGMENTS = 25;
 const COIN_INTERVAL = 20;
+const TRAFFIC_INTERVAL = 40;
 
 let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
 let input = {};
@@ -28,6 +29,7 @@ let distanceCounter = 0;
 let cars = [];
 let roads = [];
 let coins = [];
+let traffic = [];
 
 export default class Game {
 
@@ -39,7 +41,7 @@ export default class Game {
     var height = window.innerHeight / 24;
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
     //camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, -20, 500);
-    camera.position.set(0, 20, 0); 
+    camera.position.set(0, 20, -60); 
     camera.lookAt(0, 0, 0);
 
     controls = new OrbitControls(camera, renderer.domElement);
@@ -69,31 +71,10 @@ export default class Game {
     }
 
     // add player
-    player = new Bus(0, 2, 0);
+    player = new Player(0, 2, 0);
     scene.add(player);
     cars.push(player);
     world.add(player.body);
-
-    {
-      var car = new Truck(0, 0, 50);
-      scene.add(car);
-      cars.push(car);
-      world.add(car.body);
-    }
-
-    {
-      var car = new Bus(0, 0, 70);
-      scene.add(car);
-      cars.push(car);
-      world.add(car.body);
-    }
-
-    {
-      var car = new Sedan(-10, 0, 70);
-      scene.add(car);
-      cars.push(car);
-      world.add(car.body);
-    }
   }
 
   initPhysics() {
@@ -120,7 +101,7 @@ export default class Game {
   }
 
   update(delta) {
-    //camera.position.set(0, 30, player.position.z - 30);
+    camera.position.set(0, 30, player.position.z - 30);
     controls.target = player.position;
     controls.update();
 
@@ -132,6 +113,8 @@ export default class Game {
 
       if (distanceCounter % COIN_INTERVAL == 0 && Math.random() > 0.2)
         this.addCoin();
+      if (distanceCounter % TRAFFIC_INTERVAL == 0 && Math.random() > 0.4)
+        this.addTraffic();
     }
 
     coins.forEach(coin => {
@@ -156,6 +139,19 @@ export default class Game {
       car.update(delta);
     });
 
+    traffic.forEach(car => {
+      car.drive();
+
+      if (car.position.distanceTo(player.position) > 500)
+        car.remove = true;
+    });
+
+    for (var i = 0; i < cars.length; i++)
+    {
+      if (cars[i].remove)
+        cars.splice(i, 1);
+    }
+
     roads.forEach(road => {
       var dz = player.position.z - road.position.z;
       if (Math.abs(dz) > ROAD_SEGMENTS * RoadSegment.LENGTH/2)
@@ -177,6 +173,18 @@ export default class Game {
     coin.position.z = player.position.z + 100;
     coins.push(coin);
     scene.add(coin);
+  }
+
+  addTraffic() {
+    let lane = Math.floor(Math.random() * 4);
+    var car = new Truck(-12 + lane*8, 2, player.position.z + 100);
+    scene.add(car);
+    cars.push(car);
+    traffic.push(car);
+    world.add(car.body);
+
+    if (lane > 1)
+      car.rotateY(Math.PI);
   }
 
   render(renderer) {
