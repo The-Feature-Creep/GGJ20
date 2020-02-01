@@ -120,7 +120,18 @@ export default class Game {
 
       if (coin.position.distanceTo(player.position) < 5)
         coin.collect();
+      else if (coin.position.distanceTo(player.position) > 200)
+        coin.finished = true;
     });
+
+    for (var i = 0; i < coins.length; i++)
+    {
+      if (coins[i].finished)
+      {
+        scene.remove(coins[i]);
+        coins.splice(i, 1);
+      }
+    }
 
     cars.forEach(car => {
       car.update(delta);

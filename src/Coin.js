@@ -8,6 +8,7 @@ export default class Coin extends THREE.Object3D {
     super();
 
     this.collected = false;
+    this.finished = false;
 
     var geometry = new THREE.CylinderBufferGeometry( 8, 8, 2, 32 );
     geometry.rotateX(Math.PI/2);
@@ -32,6 +33,9 @@ export default class Coin extends THREE.Object3D {
     {
       this.position.y += 1;
     }
+
+    if (this.position.y > 20)
+      this.finished = true;
 
   }
 
