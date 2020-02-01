@@ -8,7 +8,7 @@ body {
 .menu-wrapper{
 	position: absolute;
 	z-index: 9999;
-	top: 10;
+	top: 0;
 	width: 100%;
 	height: 100%;
 }
@@ -34,7 +34,7 @@ height: 100%;
 
 .hud{
 	position: absolute;
-	z-index: 9999;
+	z-index: 9998;
 	top: 0;
 	right: 0;
 	width: 30rem;
@@ -51,7 +51,7 @@ height: 100%;
 }
 
 .no-select {
-	padding-top: 0.5rem;
+	padding-top: 0.4rem;
 	margin-right: 1rem;
 	color: #FFFF33;
 	-webkit-touch-callout: none; /* iOS Safari */
