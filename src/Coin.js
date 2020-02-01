@@ -7,6 +7,8 @@ export default class Coin extends THREE.Object3D {
   constructor() {
     super();
 
+    this.collected = false;
+
     var geometry = new THREE.CylinderBufferGeometry( 8, 8, 2, 32 );
     geometry.rotateX(Math.PI/2);
     var material = new THREE.MeshPhongMaterial({ color: 0xffd271, flatShading: true });
@@ -26,6 +28,15 @@ export default class Coin extends THREE.Object3D {
 
     this.body.rotation.y += 2 * delta;
 
+    if (this.collected)
+    {
+      this.position.y += 1;
+    }
+
+  }
+
+  collect() {
+    this.collected = true;
   }
 }
 

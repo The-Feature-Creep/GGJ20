@@ -125,6 +125,9 @@ export default class Game {
 
     coins.forEach(coin => {
       coin.update(delta);
+
+      if (coin.position.distanceTo(player.position) < 5)
+        coin.collect();
     });
 
     cars.forEach(car => {
