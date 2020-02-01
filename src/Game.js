@@ -126,15 +126,6 @@ export default class Game {
         coin.finished = true;
     });
 
-    for (var i = 0; i < coins.length; i++)
-    {
-      if (coins[i].finished)
-      {
-        scene.remove(coins[i]);
-        coins.splice(i, 1);
-      }
-    }
-
     cars.forEach(car => {
       car.update(delta);
     });
@@ -142,15 +133,9 @@ export default class Game {
     traffic.forEach(car => {
       car.drive();
 
-      if (car.position.distanceTo(player.position) > 500)
+      if (car.position.distanceTo(player.position) > 200)
         car.remove = true;
     });
-
-    for (var i = 0; i < cars.length; i++)
-    {
-      if (cars[i].remove)
-        cars.splice(i, 1);
-    }
 
     roads.forEach(road => {
       var dz = player.position.z - road.position.z;
@@ -166,6 +151,8 @@ export default class Game {
       player.turn(1);
     if (input[keys.DOWN])
       player.brake();
+
+    this.cleanup();
   }
 
   addCoin() {
@@ -177,7 +164,19 @@ export default class Game {
 
   addTraffic() {
     let lane = Math.floor(Math.random() * 4);
-    var car = new Truck(-12 + lane*8, 2, player.position.z + 100);
+    let x = -12 + lane*8;
+    let y = 2;
+    let z = player.position.z + 100;
+    var type = Math.floor(Math.random() * 3);
+
+    var car = null;
+
+    switch (type) {
+      case 0: car = new Truck(x, y, z); break;
+      case 1: car = new Bus(x, y, z); break;
+      case 2: car = new Sedan(x, y, z); break;
+    }
+
     scene.add(car);
     cars.push(car);
     traffic.push(car);
@@ -185,6 +184,38 @@ export default class Game {
 
     if (lane > 1)
       car.rotateY(Math.PI);
+
+    console.log(traffic.length);
+  }
+
+  cleanup() {
+
+    // remove old objects from game
+
+    for (var i = 0; i < cars.length; i++)
+    {
+      if (cars[i].remove)
+      {
+        world.remove(cars[i].body);
+        scene.remove(cars[i]);
+        cars.splice(i, 1);
+      }
+    }
+
+    for (var i = 0; i < traffic.length; i++)
+    {
+      if (traffic[i].remove)
+        traffic.splice(i, 1);
+    }
+
+    for (var i = 0; i < coins.length; i++)
+    {
+      if (coins[i].finished)
+      {
+        scene.remove(coins[i]);
+        coins.splice(i, 1);
+      }
+    }
   }
 
   render(renderer) {

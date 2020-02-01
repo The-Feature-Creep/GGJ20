@@ -17,7 +17,7 @@ export default class Car extends THREE.Object3D {
       position: new CANNON.Vec3(x, y, z), // m
       shape: new CANNON.Box(this.getBB()),
       material: Car.physicsMaterial,
-      linearDamping: 0.5,
+      linearDamping: 0.4,
       angularDamping: 0.6
     });
   }
