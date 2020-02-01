@@ -6,6 +6,9 @@ import RoadSegment from './RoadSegment';
 import Car from './Car';
 import Coin from './Coin';
 
+let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
+let input = {};
+
 var scene, camera, cube, road, controls, player;
 
 let count = 0;
@@ -81,10 +84,29 @@ export default class Game {
     coins.forEach(coin => {
         coin.update(delta);
     });
+
+    if (input[keys.UP])
+      player.position.z += 4 * delta;
   }
 
   render(renderer) {
     renderer.render(scene, camera);
+  }
+
+  onMouseMove(event) {
+    
+  }
+
+  onKeyDown(event) {
+    input[event.keyCode] = true;
+  }
+
+  onKeyUp(event) {
+    input[event.keyCode] = false;
+  }
+
+  onMouseDown(event) {
+    // event.button
   }
 
 }

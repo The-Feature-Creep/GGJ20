@@ -8,7 +8,7 @@ export default class Coin extends THREE.Object3D {
     super();
 
     var geometry = new THREE.BoxGeometry(0.6, 3, 3);
-    var material = new THREE.MeshPhongMaterial({ color: 0xffff00, flatShading: true });
+    var material = new THREE.MeshPhongMaterial({ color: 0xffd271, flatShading: true });
     this.body = new THREE.Mesh(geometry, material);
     this.add(this.body);
 
