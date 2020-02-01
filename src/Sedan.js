@@ -8,12 +8,16 @@ export default class Sedan extends Car {
 	getBB() {
 		return new CANNON.Vec3(2.5, 2, 4);
 	}
+
+	getMass() {
+		return 20;
+	}
 	
 	makeModel(){
 		var body_width = 26;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
-		var body_material = new THREE.MeshPhongMaterial( {color: this.getColor(), flatShading: true} );
 		var window_material = new THREE.MeshBasicMaterial( {color: 0xffffff, flatShading: true});
+		var body_material = new THREE.ShaderMaterial(this.shader);
 
 		//  Wheels
 		var wheel_geometry = new THREE.CylinderBufferGeometry( 5, 5, 4, 32 );

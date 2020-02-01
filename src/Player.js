@@ -3,6 +3,9 @@ import * as CANNON from 'cannon';
 
 import Car from './Car';
 
+import { BasicShader } from './libs/BasicShader.js';
+
+
 export default class Player extends Car {
 
 	constructor(x, y, z) {
@@ -15,11 +18,15 @@ export default class Player extends Car {
 		return new CANNON.Vec3(2.5, 2, 5);
 	}
 
+	getColor() {
+		return 0xaaaaaa;
+	}
+
 	makeModel() {
 		var body_width = 26;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
-		var body_material = new THREE.MeshPhongMaterial( {color: 0xaaaaaa, flatShading: true} );
 		var window_material = new THREE.MeshBasicMaterial( {color: 0xffffff, flatShading: true});
+    var body_material = new THREE.ShaderMaterial(this.shader);
 
 		//  Wheels
 		var wheel_geometry = new THREE.CylinderBufferGeometry( 6, 6, 4, 32 );

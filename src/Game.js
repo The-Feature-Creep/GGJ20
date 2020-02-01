@@ -35,7 +35,7 @@ export default class Game {
 
   constructor(renderer) {
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf3f3f3);
+    scene.background = new THREE.Color(0x94d3ac);
 	
     var width = window.innerWidth / 24;
     var height = window.innerHeight / 24;
@@ -131,7 +131,8 @@ export default class Game {
     });
 
     traffic.forEach(car => {
-      car.drive();
+      if (!car.collided)
+        car.drive();
 
       if (car.position.distanceTo(player.position) > 200)
         car.remove = true;
@@ -165,7 +166,7 @@ export default class Game {
   addTraffic() {
     let lane = Math.floor(Math.random() * 4);
     let x = -12 + lane*8;
-    let y = 2;
+    let y = 3;
     let z = player.position.z + 100;
     var type = Math.floor(Math.random() * 3);
 
@@ -184,8 +185,6 @@ export default class Game {
 
     if (lane > 1)
       car.rotateY(Math.PI);
-
-    console.log(traffic.length);
   }
 
   cleanup() {
@@ -219,7 +218,7 @@ export default class Game {
   }
 
   render(renderer) {
-    debug.update(); 
+    //debug.update(); 
     renderer.render(scene, camera);
   }
 

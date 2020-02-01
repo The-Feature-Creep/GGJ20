@@ -9,13 +9,17 @@ export default class Bus extends Car {
 		return new CANNON.Vec3(2.5, 1.8, 7.8);
 	}
 
+	getMass() {
+		return 50;
+	}
+
 	makeModel(){
 		var body_width = 26;
 		var window_width = 10;
 		var window_height = 10;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
-		var body_material = new THREE.MeshPhongMaterial( {color: this.getColor(), flatShading: true} );
 		var window_material = new THREE.MeshBasicMaterial( {color: 0xffffff, flatShading: true});
+		var body_material = new THREE.ShaderMaterial(this.shader);
 
 		//  Wheels
 		var wheel_geometry = new THREE.CylinderBufferGeometry( 7, 7, 4, 32 );

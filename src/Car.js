@@ -1,25 +1,54 @@
 import * as THREE from 'three';
 import * as CANNON from 'cannon';
 
+import { BasicShader } from './libs/BasicShader.js';
+
 export default class Car extends THREE.Object3D {
 
   constructor(x, y, z) {
     super();
+
+    this.shader = {
+      uniforms: {
+        "color": { value: new THREE.Color(this.getColor()) },
+        "amount": { value: 0.0 }
+      },
+      vertexShader: BasicShader.vertexShader,
+      fragmentShader: BasicShader.fragmentShader
+    };
 
     this.makeModel();
 
     this.position.y = 1.5;
     this.remove = false;
     this.maxSpeed = 300;
+    this.collided = false;
 
     this.body = new CANNON.Body({
-      mass: 20, // kg
+      mass: this.getMass(), // kg
       position: new CANNON.Vec3(x, y, z), // m
       shape: new CANNON.Box(this.getBB()),
       material: Car.physicsMaterial,
       linearDamping: 0.4,
       angularDamping: 0.6
     });
+
+    setTimeout(() => {
+    this.body.addEventListener("collide", (e) => {
+      var relativeVelocity = e.contact.getImpactVelocityAlongNormal();
+      if (relativeVelocity >= 0.5)
+        this.takeDamage(relativeVelocity);
+    });
+  }, 1000);
+  }
+
+  takeDamage(amount) {
+    this.shader.uniforms["amount"].value = 1.0;
+    this.collided = true;
+  }
+
+  getMass() {
+    return 25;
   }
 
   makeModel() {
@@ -54,6 +83,8 @@ export default class Car extends THREE.Object3D {
   }
 
   update(delta) {
+    this.shader.uniforms["amount"].value *= 0.7 - delta;
+
     this.position.x = this.body.position.x;
     this.position.y = this.body.position.y - 1;
     this.position.z = this.body.position.z;
