@@ -4,11 +4,13 @@ import { OrbitControls } from './libs/OrbitControls.js';
 
 import RoadSegment from './RoadSegment';
 import Car from './Car';
+import Coin from './Coin';
 
 var scene, camera, cube, road, controls, player;
 
 let count = 0;
 let cars = [];
+let coins = [];
 
 export default class Game {
 
@@ -43,6 +45,7 @@ export default class Game {
     cube = new THREE.Mesh(geometry, material);
     //scene.add(cube);
 
+    // generatre roads
     for (var i = 0; i < 10; i++)
     {
         var road = new RoadSegment();
@@ -50,6 +53,16 @@ export default class Game {
         scene.add(road);
     }
 
+    // add coins
+    for (var i = 0; i < 10; i++)
+    {
+        var coin = new Coin();
+        coin.position.z = i * RoadSegment.LENGTH * 2;
+        coins.push(coin);
+        scene.add(coin);
+    }
+
+    // add player
     player = new Car();
     scene.add(player);
   }
@@ -64,6 +77,10 @@ export default class Game {
 
     cube.rotation.x += 0.5 * delta;
     cube.rotation.z += 0.5 * delta;
+
+    coins.forEach(coin => {
+        coin.update(delta);
+    });
   }
 
   render(renderer) {
