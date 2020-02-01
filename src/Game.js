@@ -39,8 +39,12 @@ export default class Game {
     cube = new THREE.Mesh(geometry, material);
     //scene.add(cube);
 
-    road = new RoadSegment();
-    scene.add(road);
+    for (var i = 0; i < 10; i++)
+    {
+        var road = new RoadSegment();
+        road.position.z = i * RoadSegment.LENGTH;
+        scene.add(road);
+    }
   }
 
   update(delta) {

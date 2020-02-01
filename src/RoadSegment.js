@@ -8,7 +8,7 @@ export default class RoadSegment extends THREE.Object3D {
 
     noise.seed(Math.random());
 
-    var geometry = new THREE.PlaneGeometry(20, 20, 32, 32);
+    var geometry = new THREE.PlaneGeometry(RoadSegment.WIDTH, RoadSegment.LENGTH, 32, 32);
 
     console.log(geometry.vertices.length);
 
@@ -52,3 +52,6 @@ export default class RoadSegment extends THREE.Object3D {
     this.add(plane);
   }
 }
+
+RoadSegment.WIDTH = 20;
+RoadSegment.LENGTH = 20;
