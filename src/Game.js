@@ -16,8 +16,9 @@ export default class Game {
 	
     var width = window.innerWidth / 24;
     var height = window.innerHeight / 24;
-    camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, -20, 500);
-    camera.position.set(0, 10, 10); 
+    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
+    //camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, -20, 500);
+    camera.position.set(0, 30, 0); 
     camera.lookAt(0, 0, 0);
 
     controls = new OrbitControls(camera, renderer.domElement);
@@ -28,6 +29,7 @@ export default class Game {
     controls.enablePan = false;
     controls.minZoom = 0.5;
     controls.maxZoom = 1;
+    controls.target = new THREE.Vector3(0, 0, 40);
 
     let light = new THREE.DirectionalLight(0xffffff, 0.8);
     var ambient = new THREE.AmbientLight(0x333333); // soft white light
@@ -37,7 +39,7 @@ export default class Game {
     var geometry = new THREE.BoxGeometry(3, 3, 3);
     var material = new THREE.MeshPhongMaterial({ color: 0xff896b, flatShading: true });
     cube = new THREE.Mesh(geometry, material);
-    //scene.add(cube);
+    scene.add(cube);
 
     for (var i = 0; i < 10; i++)
     {
