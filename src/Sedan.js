@@ -1,13 +1,23 @@
 import * as THREE from 'three';
+import * as CANNON from 'cannon';
+
 import Car from './Car';
 
 export default class Sedan extends Car {
+
+	getBB() {
+		return new CANNON.Vec3(2.5, 2, 4);
+	}
+
+	getMass() {
+		return 20;
+	}
 	
 	makeModel(){
 		var body_width = 26;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
-		var body_material = new THREE.MeshPhongMaterial( {color: 0x555555, flatShading: true} );
 		var window_material = new THREE.MeshBasicMaterial( {color: 0xffffff, flatShading: true});
+		var body_material = new THREE.ShaderMaterial(this.shader);
 
 		//  Wheels
 		var wheel_geometry = new THREE.CylinderBufferGeometry( 5, 5, 4, 32 );
@@ -45,7 +55,7 @@ export default class Sedan extends Car {
 		bonnet_shape.lineTo(12, 0);
 		bonnet_shape.lineTo(12, 7.5);
 		bonnet_shape.lineTo(0, 5);
-		var bonnet_extrudeSettings = { amount: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var bonnet_extrudeSettings = { depth: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var bonnet_geometry = new THREE.ExtrudeGeometry(bonnet_shape, bonnet_extrudeSettings);
 
 		let bonnet = new THREE.Mesh(bonnet_geometry, body_material);
@@ -60,7 +70,7 @@ export default class Sedan extends Car {
 		boot_shape.lineTo(12, 0);
 		boot_shape.lineTo(12, 8);
 		boot_shape.lineTo(0, 6);
-		var boot_extrudeSettings = { amount: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var boot_extrudeSettings = { depth: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var boot_geometry = new THREE.ExtrudeGeometry(boot_shape, boot_extrudeSettings);
 
 		let boot = new THREE.Mesh(boot_geometry, body_material);
@@ -76,7 +86,7 @@ export default class Sedan extends Car {
 		mid1_shape.lineTo(8, 0);
 		mid1_shape.lineTo(8, 13);
 		mid1_shape.lineTo(0, 7.5);
-		var mid1_extrudeSettings = { amount: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var mid1_extrudeSettings = { depth: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var mid1_geometry = new THREE.ExtrudeGeometry(mid1_shape, mid1_extrudeSettings);
 
 		let mid1 = new THREE.Mesh(mid1_geometry, body_material);
@@ -100,7 +110,7 @@ export default class Sedan extends Car {
 		mid2_shape.lineTo(3, 0);
 		mid2_shape.lineTo(3, 10);
 		mid2_shape.lineTo(0, 5);
-		var mid2_extrudeSettings = { amount: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var mid2_extrudeSettings = { depth: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var mid2_geometry = new THREE.ExtrudeGeometry(mid2_shape, mid2_extrudeSettings);
 
 		let mid2 = new THREE.Mesh(mid2_geometry, body_material);
@@ -116,7 +126,7 @@ export default class Sedan extends Car {
 		window1_shape.lineTo(8, 4);
 		window1_shape.lineTo(8, 9);
 		window1_shape.lineTo(0, 4);
-		var window1_extrudeSettings = { amount: body_width+0.2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var window1_extrudeSettings = { depth: body_width+0.2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var window1_geometry = new THREE.ExtrudeGeometry(window1_shape, window1_extrudeSettings);
 
 		let window1 = new THREE.Mesh(window1_geometry, window_material);
@@ -141,7 +151,7 @@ export default class Sedan extends Car {
 		window3_shape.lineTo(3, 5);
 		window3_shape.lineTo(3, 10);
 		window3_shape.lineTo(0, 5);
-		var window3_extrudeSettings = { amount: body_width+0.2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var window3_extrudeSettings = { depth: body_width+0.2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var window3_geometry = new THREE.ExtrudeGeometry(window3_shape, window3_extrudeSettings);
 
 		let window3 = new THREE.Mesh(window3_geometry, window_material);
@@ -157,7 +167,7 @@ export default class Sedan extends Car {
 		window4_shape.lineTo(3, 5);
 		window4_shape.lineTo(3, 10);
 		window4_shape.lineTo(0, 5);
-		var window4_extrudeSettings = { amount: body_width-2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var window4_extrudeSettings = { depth: body_width-2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var window4_geometry = new THREE.ExtrudeGeometry(window4_shape, window4_extrudeSettings);
 
 		let window4 = new THREE.Mesh(window4_geometry, window_material);
@@ -172,7 +182,7 @@ export default class Sedan extends Car {
 		window6_shape.lineTo(8, 4);
 		window6_shape.lineTo(8, 9);
 		window6_shape.lineTo(0, 4);
-		var window6_extrudeSettings = { amount: body_width-2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var window6_extrudeSettings = { depth: body_width-2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var window6_geometry = new THREE.ExtrudeGeometry(window6_shape, window6_extrudeSettings);
 
 		let window6 = new THREE.Mesh(window6_geometry, window_material);

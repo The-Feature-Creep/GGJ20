@@ -1,32 +1,92 @@
 import * as THREE from 'three';
 import * as CANNON from 'cannon';
 
+import { BasicShader } from './libs/BasicShader.js';
+
 export default class Car extends THREE.Object3D {
 
   constructor(x, y, z) {
     super();
 
+    this.shader = {
+      uniforms: {
+        "color": { value: new THREE.Color(this.getColor()) },
+        "amount": { value: 0.0 }
+      },
+      vertexShader: BasicShader.vertexShader,
+      fragmentShader: BasicShader.fragmentShader
+    };
+
     this.makeModel();
 
     this.position.y = 1.5;
+    this.remove = false;
+    this.maxSpeed = 300;
+    this.collided = false;
 
     this.body = new CANNON.Body({
-      mass: 20, // kg
+      mass: this.getMass(), // kg
       position: new CANNON.Vec3(x, y, z), // m
-      shape: new CANNON.Box(new CANNON.Vec3(3, 1.6, 4)),
+      shape: new CANNON.Box(this.getBB()),
       material: Car.physicsMaterial,
-      linearDamping: 0.5,
+      linearDamping: 0.4,
       angularDamping: 0.6
     });
+
+    setTimeout(() => {
+    this.body.addEventListener("collide", (e) => {
+      var relativeVelocity = e.contact.getImpactVelocityAlongNormal();
+      if (relativeVelocity >= 0.5)
+        this.takeDamage(relativeVelocity);
+    });
+  }, 1000);
+  }
+
+  takeDamage(amount) {
+    this.shader.uniforms["amount"].value = 1.0;
+    this.collided = true;
+  }
+
+  getMass() {
+    return 25;
   }
 
   makeModel() {
 
   }
 
+  getColor() {
+    let colors = [0xff677d, 0x61d4b3, 0x9399ff, 0x8cba51, 0xf6f4e6, 0xffcc00];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  getBB() {
+    return new CANNON.Vec3(1, 1, 1);
+  }
+
+  rotateX(v) {
+    var quat = new CANNON.Quaternion();
+    quat.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), v);
+    this.body.quaternion = quat.mult(this.body.quaternion);
+  }
+
+  rotateY(v) {
+    var quat = new CANNON.Quaternion();
+    quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), v);
+    this.body.quaternion = quat.mult(this.body.quaternion);
+  }
+
+  rotateZ(v) {
+    var quat = new CANNON.Quaternion();
+    quat.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), v);
+    this.body.quaternion = quat.mult(this.body.quaternion);
+  }
+
   update(delta) {
+    this.shader.uniforms["amount"].value *= 0.7 - delta;
+
     this.position.x = this.body.position.x;
-    this.position.y = this.body.position.y;
+    this.position.y = this.body.position.y - 1;
     this.position.z = this.body.position.z;
     this.quaternion.x = this.body.quaternion.x;
     this.quaternion.y = this.body.quaternion.y;
@@ -40,15 +100,13 @@ export default class Car extends THREE.Object3D {
     this.body.quaternion.toEuler(vector);
     var rx = Math.sin(vector.y);
     var rz = Math.cos(vector.y);
-    this.body.applyForce(new CANNON.Vec3(rx * 500 * dir, 0, rz * 500 * dir), this.body.position);
+    this.body.applyForce(new CANNON.Vec3(rx * this.maxSpeed * dir, 0, rz * this.maxSpeed * dir), this.body.position);
   }
 
   turn(dir) {
     let speed = Math.min(this.body.velocity.length() * 8, 20 - this.body.velocity.length());
-    //if (this.body.velocity.length() < 1)
-      //speed = 0;
     var quat = new CANNON.Quaternion();
-    quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI/2 * dir * 0.001 * speed);
+    quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -dir * speed * 0.0015);
     this.body.quaternion = quat.mult(this.body.quaternion);
   }
 

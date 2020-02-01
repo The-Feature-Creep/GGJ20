@@ -1,12 +1,32 @@
 import * as THREE from 'three';
+import * as CANNON from 'cannon';
+
 import Car from './Car';
 
-export default class Player extends Car{
+import { BasicShader } from './libs/BasicShader.js';
+
+
+export default class Player extends Car {
+
+	constructor(x, y, z) {
+		super(x, y, z);
+
+		this.maxSpeed = 500;
+	}
+
+	getBB() {
+		return new CANNON.Vec3(2.5, 2, 5);
+	}
+
+	getColor() {
+		return 0xaaaaaa;
+	}
+
 	makeModel() {
 		var body_width = 26;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
-		var body_material = new THREE.MeshPhongMaterial( {color: 0x555555, flatShading: true} );
 		var window_material = new THREE.MeshBasicMaterial( {color: 0xffffff, flatShading: true});
+    var body_material = new THREE.ShaderMaterial(this.shader);
 
 		//  Wheels
 		var wheel_geometry = new THREE.CylinderBufferGeometry( 6, 6, 4, 32 );
@@ -41,7 +61,7 @@ export default class Player extends Car{
 		bonnet_shape.lineTo(25, 0);
 		bonnet_shape.lineTo(25, 14);
 		bonnet_shape.lineTo(-2, 6);
-		var bonnet_extrudeSettings = { amount: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var bonnet_extrudeSettings = { depth: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var bonnet_geometry = new THREE.ExtrudeGeometry(bonnet_shape, bonnet_extrudeSettings);
 
 		let bonnet = new THREE.Mesh(bonnet_geometry, body_material);
@@ -56,7 +76,7 @@ export default class Player extends Car{
 		boot_shape.lineTo(35, 0);
 		boot_shape.lineTo(35, 14);
 		boot_shape.lineTo(-2, 8);
-		var boot_extrudeSettings = { amount: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var boot_extrudeSettings = { depth: body_width, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var boot_geometry = new THREE.ExtrudeGeometry(boot_shape, boot_extrudeSettings);
 
 		let boot = new THREE.Mesh(boot_geometry, body_material);
@@ -81,7 +101,7 @@ export default class Player extends Car{
 		sfw_shape.lineTo(15, 0);
 		sfw_shape.lineTo(15, 8);
 		sfw_shape.lineTo(-2, 3);
-		var sfw_extrudeSettings = { amount: body_width+0.2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var sfw_extrudeSettings = { depth: body_width+0.2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var sfw_geometry = new THREE.ExtrudeGeometry(sfw_shape, sfw_extrudeSettings);
 
 		let sfw_window = new THREE.Mesh(sfw_geometry, window_material);
@@ -97,7 +117,7 @@ export default class Player extends Car{
 		sbw_shape.lineTo(15, 0);
 		sbw_shape.lineTo(15, 8);
 		sbw_shape.lineTo(-2, 5.5);
-		var sbw_extrudeSettings = { amount: body_width+0.2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var sbw_extrudeSettings = { depth: body_width+0.2, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
 		var sbw_geometry = new THREE.ExtrudeGeometry(sbw_shape, sbw_extrudeSettings);
 
 		let sbw_window = new THREE.Mesh(sbw_geometry, window_material);
