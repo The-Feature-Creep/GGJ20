@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from './libs/OrbitControls.js';
 
 import Box from './Box';
+import Car from './Car.js';
 
 var scene, camera, boxes, controls;
 
@@ -30,19 +31,17 @@ export default class Game {
     let light = new THREE.DirectionalLight(0xffffff, 0.8);
     var ambient = new THREE.AmbientLight(0xcccccc); // soft white light
     scene.add(light);
-    scene.add(ambient);
+	scene.add(ambient);
 
-	boxes = [];
-	for (let i = 0; i < 5; i++) {
-		boxes.push(new Box(scene));
-	}
+	let car = new Car();
+	scene.add(car);
+
+	
+	
   }
 
   update(delta) {
 	controls.update();
-	boxes.forEach(box => {
-		box.update(delta);
-	});
 	    
   }
 
