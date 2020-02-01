@@ -34,8 +34,8 @@ export default class RoadSegment extends THREE.Object3D {
 
       const avgz = (a.z+b.z+c.z)/3;
 
-      if (avgz < 0) f.color.set(0xcd6684);
-      else f.color.set(0x6f5a7e);
+      if (avgz < 0) f.color.set(RoadSegment.POTHOLE_COLOR);
+      else f.color.set(RoadSegment.ROAD_COLOR);
     });
 
     geometry.verticesNeedUpdate = true;
@@ -55,3 +55,5 @@ export default class RoadSegment extends THREE.Object3D {
 
 RoadSegment.WIDTH = 20;
 RoadSegment.LENGTH = 20;
+RoadSegment.ROAD_COLOR = 0x6c5b7b;
+RoadSegment.POTHOLE_COLOR = 0xc06c84;

@@ -32,7 +32,7 @@ export default class Game {
     controls.target = new THREE.Vector3(0, 0, 40);
 
     let light = new THREE.DirectionalLight(0xffffff, 0.8);
-    var ambient = new THREE.AmbientLight(0x333333); // soft white light
+    var ambient = new THREE.AmbientLight(0x666666); // soft white light
     scene.add(light);
     scene.add(ambient);
 
