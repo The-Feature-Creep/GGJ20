@@ -2,8 +2,7 @@ import * as THREE from 'three';
 import Car from './Car';
 
 export default class Player extends Car{
-	constructor(){
-		super();
+	makeModel() {
 		var body_width = 26;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
 		var body_material = new THREE.MeshPhongMaterial( {color: 0x555555, flatShading: true} );
@@ -112,5 +111,9 @@ export default class Player extends Car{
 		var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
 		var cylinder = new THREE.Mesh(cylinder_geometry, body_material);
 		this.add(cylinder);
+		
+		this.scale.set(Player.SCALE, Player.SCALE, Player.SCALE);
 	}
 }
+
+Player.SCALE = 0.15;

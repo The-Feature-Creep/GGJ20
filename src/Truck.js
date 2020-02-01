@@ -2,8 +2,7 @@ import * as THREE from 'three';
 import Car from './Car';
 
 export default class Truck extends Car{
-	constructor(){
-		super();
+	makeModel(){
 		var body_width = 26;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
 		var body_material = new THREE.MeshPhongMaterial( {color: 0x555555, flatShading: true} );

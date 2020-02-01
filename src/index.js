@@ -24,6 +24,11 @@ function init() {
   container.appendChild( stats.domElement );
   //
   game = new Game(renderer);
+
+  window.addEventListener('keydown', handleKeyDown, false);
+  window.addEventListener('keyup', handleKeyUp, false);
+  window.addEventListener('mousemove', onMouseMove, false);
+  window.addEventListener('mousedown', onMouseDown, false);
 }
 
 function update(time) {
@@ -36,4 +41,20 @@ function update(time) {
 
 function render() {
   game.render(renderer);
+}
+
+function handleKeyDown(event) {
+  game.onKeyDown(event);
+}
+
+function handleKeyUp(event) {
+  game.onKeyUp(event);
+}
+
+function onMouseMove(event) {
+  game.onMouseMove(event);
+}
+
+function onMouseDown(event) {
+  game.onMouseDown(event);
 }

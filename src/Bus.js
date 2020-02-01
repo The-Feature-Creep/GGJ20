@@ -2,8 +2,7 @@ import * as THREE from 'three';
 import Car from './Car';
 
 export default class Bus extends Car{
-	constructor(){
-		super();
+	makeModel(){
 		var body_width = 26;
 		var window_width = 10;
 		var window_height = 10;
