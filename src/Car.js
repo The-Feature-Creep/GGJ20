@@ -6,10 +6,7 @@ export default class Car extends THREE.Object3D {
   constructor() {
     super();
 
-    var geometry = new THREE.BoxGeometry(3, 3, 6);
-    var material = new THREE.MeshPhongMaterial({ color: 0xff0000, flatShading: true });
-    let cube = new THREE.Mesh(geometry, material);
-    this.add(cube);
+    this.makeModel();
 
     this.position.y = 1.5;
 
@@ -23,6 +20,10 @@ export default class Car extends THREE.Object3D {
     });
   }
 
+  makeModel() {
+
+  }
+
   update(delta) {
     this.position.x = this.body.position.x;
     this.position.y = this.body.position.y;
@@ -32,6 +33,4 @@ export default class Car extends THREE.Object3D {
     this.quaternion.z = this.body.quaternion.z;
     this.quaternion.w = this.body.quaternion.w;
   }
-
-
 }

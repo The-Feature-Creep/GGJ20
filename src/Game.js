@@ -6,6 +6,7 @@ import { OrbitControls } from './libs/OrbitControls.js';
 import RoadSegment from './RoadSegment';
 import Car from './Car';
 import Coin from './Coin';
+import Player from './Player.js';
 
 let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
 let input = {};
@@ -34,7 +35,7 @@ export default class Game {
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = false;
     controls.enableZoom = true;
-    controls.enablePan = false;
+    controls.enablePan = true;
     controls.minZoom = 0.5;
     controls.maxZoom = 1;
     controls.target = new THREE.Vector3(0, 0, 40);
@@ -69,7 +70,7 @@ export default class Game {
     }
 
     // add player
-    player = new Car();
+    player = new Player();
     scene.add(player);
     cars.push(player);
     this.world.add(player.body);
@@ -93,11 +94,7 @@ export default class Game {
   update(delta) {
     controls.target = player.position;
     controls.update();
-
-    count++;
-
-    cube.position.x = Math.sin(count / 8);
-
+    
     cube.rotation.x += 0.5 * delta;
     cube.rotation.z += 0.5 * delta;
 
