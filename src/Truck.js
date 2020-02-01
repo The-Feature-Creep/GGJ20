@@ -12,7 +12,7 @@ export default class Truck extends Car {
 	makeModel(){
 		var body_width = 26;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
-		var body_material = new THREE.MeshPhongMaterial( {color: 0x555555, flatShading: true} );
+		var body_material = new THREE.MeshPhongMaterial( {color: this.getColor(), flatShading: true} );
 		var window_material = new THREE.MeshBasicMaterial( {color: 0xffffff, flatShading: true});
 
 		//  Wheels

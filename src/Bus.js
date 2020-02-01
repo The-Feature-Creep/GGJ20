@@ -14,7 +14,7 @@ export default class Bus extends Car {
 		var window_width = 10;
 		var window_height = 10;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
-		var body_material = new THREE.MeshPhongMaterial( {color: 0x555555, flatShading: true} );
+		var body_material = new THREE.MeshPhongMaterial( {color: this.getColor(), flatShading: true} );
 		var window_material = new THREE.MeshBasicMaterial( {color: 0xffffff, flatShading: true});
 
 		//  Wheels

@@ -10,7 +10,7 @@ export default class Car extends THREE.Object3D {
 
     this.position.y = 1.5;
     this.remove = false;
-    this.maxSpeed = 400;
+    this.maxSpeed = 300;
 
     this.body = new CANNON.Body({
       mass: 20, // kg
@@ -24,6 +24,11 @@ export default class Car extends THREE.Object3D {
 
   makeModel() {
 
+  }
+
+  getColor() {
+    let colors = [0xff677d, 0x61d4b3, 0x9399ff, 0x8cba51, 0xf6f4e6, 0xffcc00];
+    return colors[Math.floor(Math.random() * colors.length)];
   }
 
   getBB() {
