@@ -2,16 +2,23 @@ import * as THREE from 'three';
 import * as CANNON from 'cannon';
 
 import { OrbitControls } from './libs/OrbitControls.js';
+import CannonDebugRenderer from './utils/CannonDebugRenderer.js';
 
 import RoadSegment from './RoadSegment';
 import Car from './Car';
 import Coin from './Coin';
 import Player from './Player.js';
 
+const UP = new THREE.Vector3(0, 1, 0);
+const EPSILON = 0.00001;
+const GAME_SPEED = 1.0;
+const PHYSICS_TIMESTEP = 1.0 / 60.0;
+const PHYSICS_SUBSTEPS = 4;
+
 let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
 let input = {};
 
-var scene, camera, cube, road, controls, player;
+var scene, world, debug, camera, cube, road, controls, player;
 
 let count = 0;
 let cars = [];
@@ -55,29 +62,31 @@ export default class Game {
     // generatre roads
     for (var i = 0; i < 10; i++)
     {
-        var road = new RoadSegment();
-        road.position.z = i * RoadSegment.LENGTH;
-        scene.add(road);
+      var road = new RoadSegment();
+      road.position.z = i * RoadSegment.LENGTH;
+      scene.add(road);
     }
 
     // add coins
     for (var i = 0; i < 10; i++)
     {
-        var coin = new Coin();
-        coin.position.z = i * RoadSegment.LENGTH * 2;
-        coins.push(coin);
-        scene.add(coin);
+      var coin = new Coin();
+      coin.position.z = i * RoadSegment.LENGTH * 2;
+      coins.push(coin);
+      //scene.add(coin);
     }
 
     // add player
     player = new Player();
     scene.add(player);
     cars.push(player);
-    this.world.add(player.body);
+    world.add(player.body);
   }
 
   initPhysics() {
-    this.world = new CANNON.World();
+    world = new CANNON.World();
+    world.gravity.set(0, -9.82, 0); // m/s²
+    debug = new CannonDebugRenderer(scene, world);
 
     var groundMaterial = new CANNON.Material("groundMaterial");
     // Create a plane
@@ -88,12 +97,14 @@ export default class Game {
     var plane = new CANNON.Plane();
     groundBody.addShape(plane);
     groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0), -Math.PI/2);
-    this.world.addBody(groundBody);
+    world.addBody(groundBody);
   }
 
   update(delta) {
     controls.target = player.position;
     controls.update();
+
+    world.step(Math.max(PHYSICS_TIMESTEP, EPSILON), Math.max(delta, EPSILON), PHYSICS_SUBSTEPS);
     
     cube.rotation.x += 0.5 * delta;
     cube.rotation.z += 0.5 * delta;
@@ -107,10 +118,11 @@ export default class Game {
     });
 
     if (input[keys.UP])
-      player.position.z += 4 * delta;
+      player.drive();
   }
 
   render(renderer) {
+    debug.update(); 
     renderer.render(scene, camera);
   }
 

@@ -13,7 +13,7 @@ export default class Car extends THREE.Object3D {
     var radius = 0.7; // m
     this.body = new CANNON.Body({
       mass: 150, // kg
-      position: new CANNON.Vec3(5, 0, 0), // m
+      position: new CANNON.Vec3(5, 5, 20), // m
       shape: new CANNON.Box(new CANNON.Vec3(radius, radius, radius)),
       material: new CANNON.Material("carMaterial"),
       linearDamping: 0.98
@@ -32,5 +32,10 @@ export default class Car extends THREE.Object3D {
     this.quaternion.y = this.body.quaternion.y;
     this.quaternion.z = this.body.quaternion.z;
     this.quaternion.w = this.body.quaternion.w;
+  }
+
+  drive() {
+    console.log("Drive");
+    this.body.applyLocalForce(new CANNON.Vec3(10, 10, 20), this.body.position);
   }
 }

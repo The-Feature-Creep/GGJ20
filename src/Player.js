@@ -104,5 +104,9 @@ export default class Player extends Car{
 		sbw_window.position.z = 9.9;
 		sbw_window.position.x = 25.1;
 		this.add(sbw_window);
+
+		this.scale.set(Player.SCALE, Player.SCALE, Player.SCALE);
 	}
 }
+
+Player.SCALE = 0.15;

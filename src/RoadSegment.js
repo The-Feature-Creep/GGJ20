@@ -48,7 +48,7 @@ export default class RoadSegment extends THREE.Object3D {
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
 
-    var material = new THREE.MeshPhongMaterial({ side: THREE.SingleSide, vertexColors: THREE.VertexColors, flatShading: true });
+    var material = new THREE.MeshPhongMaterial({ vertexColors: THREE.VertexColors, flatShading: true });
     var plane = new THREE.Mesh(geometry, material);
 
     plane.rotation.x = -Math.PI / 2;
