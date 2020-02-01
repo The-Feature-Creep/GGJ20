@@ -2,7 +2,9 @@ import * as THREE from 'three';
 
 import { OrbitControls } from './libs/OrbitControls.js';
 
-var scene, camera, cube, controls;
+import RoadSegment from './RoadSegment';
+
+var scene, camera, cube, road, controls;
 
 let count = 0;
 
@@ -28,14 +30,17 @@ export default class Game {
     controls.maxZoom = 1;
 
     let light = new THREE.DirectionalLight(0xffffff, 0.8);
-    var ambient = new THREE.AmbientLight(0xcccccc); // soft white light
+    var ambient = new THREE.AmbientLight(0x333333); // soft white light
     scene.add(light);
     scene.add(ambient);
 
     var geometry = new THREE.BoxGeometry(3, 3, 3);
     var material = new THREE.MeshPhongMaterial({ color: 0xff896b, flatShading: true });
     cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    //scene.add(cube);
+
+    road = new RoadSegment();
+    scene.add(road);
   }
 
   update(delta) {
