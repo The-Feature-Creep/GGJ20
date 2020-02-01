@@ -27,6 +27,8 @@
   },
   "dependencies": {
     "cannon": "^0.6.2",
+    "jquery": "^3.4.1",
+    "materialize-css": "^1.0.0-rc.2",
     "three": "^0.111.0"
   }
 }

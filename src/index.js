@@ -4,6 +4,11 @@ import Stats from './libs/stats.module.js';
 
 import Game from './Game';
 
+import './../node_modules/materialize-css/dist/css/materialize.css';
+import './../node_modules/materialize-css/dist/js/materialize';
+import './../node_modules/jquery/dist/jquery';
+import './ui/css/styles.css'
+
 var container, stats, renderer, game;
 let lastTime = 0.0;
 
