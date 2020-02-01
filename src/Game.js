@@ -13,6 +13,7 @@ const UP = new THREE.Vector3(0, 1, 0);
 const EPSILON = 0.00001;
 const PHYSICS_TIMESTEP = 1.0 / 60.0;
 const PHYSICS_SUBSTEPS = 4;
+const ROAD_SEGMENTS = 25;
 
 let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
 let input = {};
@@ -21,6 +22,7 @@ var scene, world, debug, camera, cube, road, controls, player;
 
 let count = 0;
 let cars = [];
+let roads = [];
 let coins = [];
 
 export default class Game {
@@ -59,11 +61,12 @@ export default class Game {
     this.initPhysics();
 
     // generate roads
-    for (var i = 0; i < 10; i++)
+    for (var i = 0; i < ROAD_SEGMENTS; i++)
     {
       var road = new RoadSegment();
       road.position.z = i * RoadSegment.LENGTH;
       scene.add(road);
+      roads.push(road);
     }
 
     // add coins
@@ -126,6 +129,12 @@ export default class Game {
 
     cars.forEach(car => {
       car.update(delta);
+    });
+
+    roads.forEach(road => {
+      var dz = player.position.z - road.position.z;
+      if (Math.abs(dz) > ROAD_SEGMENTS * RoadSegment.LENGTH/2)
+        road.position.z += RoadSegment.LENGTH * ROAD_SEGMENTS * (dz > 0 ? 1 : -1);
     });
 
     if (input[keys.UP])
