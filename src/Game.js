@@ -12,7 +12,7 @@ import Player from './Player.js';
 const UP = new THREE.Vector3(0, 1, 0);
 const EPSILON = 0.00001;
 const PHYSICS_TIMESTEP = 1.0 / 60.0;
-const PHYSICS_SUBSTEPS = 2;
+const PHYSICS_SUBSTEPS = 4;
 
 let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
 let input = {};
@@ -33,7 +33,7 @@ export default class Game {
     var height = window.innerHeight / 24;
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
     //camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, -20, 500);
-    camera.position.set(0, 30, 0); 
+    camera.position.set(0, 20, 0); 
     camera.lookAt(0, 0, 0);
 
     controls = new OrbitControls(camera, renderer.domElement);
@@ -76,7 +76,7 @@ export default class Game {
     }
 
     // add player
-    player = new Player();
+    player = new Player(0, 2, 0);
     scene.add(player);
     cars.push(player);
     world.add(player.body);
@@ -89,7 +89,7 @@ export default class Game {
 
   initPhysics() {
     world = new CANNON.World();
-    world.gravity.set(0, -9.82, 0); // m/s²
+    world.gravity.set(0, -10, 0); // m/s²
     debug = new CannonDebugRenderer(scene, world);
 
     var groundMaterial = new CANNON.Material("groundMaterial");
@@ -111,6 +111,7 @@ export default class Game {
   }
 
   update(delta) {
+    camera.position.set(0, 30, player.position.z - 30);
     controls.target = player.position;
     controls.update();
 

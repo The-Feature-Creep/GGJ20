@@ -15,7 +15,7 @@ export default class Car extends THREE.Object3D {
       position: new CANNON.Vec3(x, y, z), // m
       shape: new CANNON.Box(new CANNON.Vec3(3, 1.6, 4)),
       material: Car.physicsMaterial,
-      linearDamping: 0.2,
+      linearDamping: 0.5,
       angularDamping: 0.6
     });
   }
@@ -40,11 +40,11 @@ export default class Car extends THREE.Object3D {
     this.body.quaternion.toEuler(vector);
     var rx = Math.sin(vector.y);
     var rz = Math.cos(vector.y);
-    this.body.applyForce(new CANNON.Vec3(rx * 200 * dir, 0, rz * 200 * dir), this.body.position);
+    this.body.applyForce(new CANNON.Vec3(rx * 500 * dir, 0, rz * 500 * dir), this.body.position);
   }
 
   turn(dir) {
-    let speed = this.body.velocity.length() * 8;
+    let speed = this.body.velocity.length() * 4;
     var quat = new CANNON.Quaternion();
     quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI/2 * dir * 0.001 * speed);
     this.body.quaternion = quat.mult(this.body.quaternion);
