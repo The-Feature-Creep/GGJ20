@@ -10,8 +10,6 @@ export default class RoadSegment extends THREE.Object3D {
 
     var geometry = new THREE.PlaneGeometry(RoadSegment.WIDTH, RoadSegment.LENGTH, RoadSegment.WIDTH_SEGMENTS, RoadSegment.LENGTH_SEGMENTS);
 
-    console.log(geometry.vertices.length);
-
     for (var i = 0; i <= RoadSegment.LENGTH_SEGMENTS; i++)
     {
       for (var j = 0; j <= RoadSegment.WIDTH_SEGMENTS; j++)
@@ -26,7 +24,7 @@ export default class RoadSegment extends THREE.Object3D {
         value = Math.min(0, value * 3);
 
         // lines
-        if ((i > 4 && i < 16 || j == 32) && j % 16 == 0 && j > 0 && j < RoadSegment.WIDTH_SEGMENTS && value == 0) value = 0.1;
+        if ((i > 4 && i < 16 || j == 32) && j % 16 == 0 && j > 0 && j < RoadSegment.WIDTH_SEGMENTS && value == 0) value = 0.01;
 
         geometry.vertices[i * (RoadSegment.WIDTH_SEGMENTS + 1) + j].z += value;
       }

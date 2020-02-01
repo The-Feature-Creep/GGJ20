@@ -3,10 +3,12 @@ import * as THREE from 'three';
 import { OrbitControls } from './libs/OrbitControls.js';
 
 import RoadSegment from './RoadSegment';
+import Car from './Car';
 
-var scene, camera, cube, road, controls;
+var scene, camera, cube, road, controls, player;
 
 let count = 0;
+let cars = [];
 
 export default class Game {
 
@@ -39,7 +41,7 @@ export default class Game {
     var geometry = new THREE.BoxGeometry(3, 3, 3);
     var material = new THREE.MeshPhongMaterial({ color: 0xff896b, flatShading: true });
     cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    //scene.add(cube);
 
     for (var i = 0; i < 10; i++)
     {
@@ -47,9 +49,13 @@ export default class Game {
         road.position.z = i * RoadSegment.LENGTH;
         scene.add(road);
     }
+
+    player = new Car();
+    scene.add(player);
   }
 
   update(delta) {
+    controls.target = player.position;
     controls.update();
 
     count++;
