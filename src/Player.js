@@ -4,8 +4,7 @@ import Car from './Car';
 export default class Player extends Car{
 	constructor(){
 		super();
-		var body_length = 40;
-		var body_width = 25;
+		var body_width = 26;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
 		var body_material = new THREE.MeshPhongMaterial( {color: 0x555555, flatShading: true} );
 		var window_material = new THREE.MeshBasicMaterial( {color: 0xffffff, flatShading: true});
@@ -14,23 +13,27 @@ export default class Player extends Car{
 		var wheel_geometry = new THREE.CylinderBufferGeometry( 6, 6, 4, 32 );
 	
 		let lb_wheel = new THREE.Mesh( wheel_geometry, wheel_material );
+		lb_wheel.position.x = -13;
+		lb_wheel.position.z = -17.5;
 		lb_wheel.rotation.z += Math.PI/2;
 		this.add(lb_wheel);
 
 		let rb_wheel = new THREE.Mesh( wheel_geometry, wheel_material );
 		rb_wheel.rotation.z += Math.PI/2;
-		rb_wheel.position.x = body_width;
+		rb_wheel.position.z = -17.5;
+		rb_wheel.position.x = 13;
 		this.add(rb_wheel);
 
 		let lf_wheel = new THREE.Mesh( wheel_geometry, wheel_material );
 		lf_wheel.rotation.z += Math.PI/2;
-		lf_wheel.position.z = body_length;
+		lf_wheel.position.z = 22.5;
+		lf_wheel.position.x = -13;
 		this.add(lf_wheel);
 
 		let rf_wheel = new THREE.Mesh( wheel_geometry, wheel_material );
 		rf_wheel.rotation.z += Math.PI/2;
-		rf_wheel.position.z = body_length;
-		rf_wheel.position.x = body_width;
+		rf_wheel.position.z = 22.5;
+		rf_wheel.position.x = 13;
 		this.add(rf_wheel);
 
 		// Body
@@ -45,7 +48,8 @@ export default class Player extends Car{
 		let bonnet = new THREE.Mesh(bonnet_geometry, body_material);
 		bonnet.rotation.y += Math.PI/2;
 		bonnet.position.y = 2;
-		bonnet.position.z = 50;
+		bonnet.position.z = 32.5;
+		bonnet.position.x = -13;
 		this.add(bonnet);
 
 		var boot_shape = new THREE.Shape();
@@ -58,9 +62,9 @@ export default class Player extends Car{
 
 		let boot = new THREE.Mesh(boot_geometry, body_material);
 		boot.rotation.y -= Math.PI/2;
+		boot.position.x = 13;
 		boot.position.y = 2;
-		boot.position.z = -10;
-		boot.position.x = 25;
+		boot.position.z = -27.5;
 		this.add(boot);
 		
 		// Front Window
@@ -68,8 +72,7 @@ export default class Player extends Car{
 		
 		var fw_window = new THREE.Mesh( fw_geometry, window_material );
 		fw_window.position.y = 13.1;
-		fw_window.position.z = 35;
-		fw_window.position.x = 12.5;
+		fw_window.position.z = 17.5;
 		fw_window.rotation.x -= Math.PI/2.45;
 		this.add( fw_window );
 
@@ -85,8 +88,8 @@ export default class Player extends Car{
 		let sfw_window = new THREE.Mesh(sfw_geometry, window_material);
 		sfw_window.rotation.y += Math.PI/2;
 		sfw_window.position.y = 7;
-		sfw_window.position.z = 40;
-		sfw_window.position.x = -0.1
+		sfw_window.position.z = 22.5;
+		sfw_window.position.x = -13.1
 		this.add(sfw_window);
 
 		// Side Back windows
@@ -101,8 +104,13 @@ export default class Player extends Car{
 		let sbw_window = new THREE.Mesh(sbw_geometry, window_material);
 		sbw_window.rotation.y -= Math.PI/2;
 		sbw_window.position.y = 7;
-		sbw_window.position.z = 9.9;
-		sbw_window.position.x = 25.1;
+		sbw_window.position.z = -7.6;
+		sbw_window.position.x = 13.1;
 		this.add(sbw_window);
+
+
+		var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
+		var cylinder = new THREE.Mesh(cylinder_geometry, body_material);
+		this.add(cylinder);
 	}
 }

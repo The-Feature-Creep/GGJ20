@@ -7,6 +7,7 @@ import Coin from './Coin.js';
 import Player from './Player.js';
 import Truck from './Truck.js';
 import Bus from './Bus.js';
+import Sedan from './Sedan.js';
 
 var scene, camera, controls, coin;
 
@@ -39,15 +40,20 @@ export default class Game {
 	var car = new Car();
 	scene.add(car);
 
-	// var player = new Player();
-	// scene.add(player);
+	var player = new Player();
+	player.position.x = 40;
+	scene.add(player);
 
 	var truck = new Truck();
+	truck.position.x = 80;
 	scene.add(truck);
 
-	// var bus = new Bus();
-	// scene.add(bus);
+	var bus = new Bus();
+	bus.position.x = 120;
+	scene.add(bus);
 
+	var sedan = new Sedan();
+	scene.add(sedan);
 	// coin = new Coin();
 	// scene.add(coin);
   }
