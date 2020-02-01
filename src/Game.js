@@ -14,13 +14,14 @@ const EPSILON = 0.00001;
 const PHYSICS_TIMESTEP = 1.0 / 60.0;
 const PHYSICS_SUBSTEPS = 4;
 const ROAD_SEGMENTS = 25;
+const COIN_INTERVAL = 20;
 
 let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
 let input = {};
 
 var scene, world, debug, camera, cube, road, controls, player;
 
-let count = 0;
+let distanceCounter = 0;
 let cars = [];
 let roads = [];
 let coins = [];
@@ -53,11 +54,6 @@ export default class Game {
     scene.add(light);
     scene.add(ambient);
 
-    var geometry = new THREE.BoxGeometry(3, 3, 3);
-    var material = new THREE.MeshPhongMaterial({ color: 0xff896b, flatShading: true });
-    cube = new THREE.Mesh(geometry, material);
-    //scene.add(cube);
-
     this.initPhysics();
 
     // generate roads
@@ -67,15 +63,6 @@ export default class Game {
       road.position.z = i * RoadSegment.LENGTH;
       scene.add(road);
       roads.push(road);
-    }
-
-    // add coins
-    for (var i = 0; i < 10; i++)
-    {
-      var coin = new Coin();
-      coin.position.z = i * RoadSegment.LENGTH * 2;
-      coins.push(coin);
-      scene.add(coin);
     }
 
     // add player
@@ -120,8 +107,13 @@ export default class Game {
 
     world.step(PHYSICS_TIMESTEP, PHYSICS_SUBSTEPS);
     
-    cube.rotation.x += 0.5 * delta;
-    cube.rotation.z += 0.5 * delta;
+    if (Math.floor(player.position.z) > distanceCounter)
+    {
+      distanceCounter = Math.floor(player.position.z);
+
+      if (distanceCounter % COIN_INTERVAL == 0 && Math.random() > 0.2)
+        this.addCoin();
+    }
 
     coins.forEach(coin => {
       coin.update(delta);
@@ -148,6 +140,13 @@ export default class Game {
       player.turn(1);
     if (input[keys.DOWN])
       player.brake();
+  }
+
+  addCoin() {
+    var coin = new Coin();
+    coin.position.z = player.position.z + 100;
+    coins.push(coin);
+    scene.add(coin);
   }
 
   render(renderer) {
