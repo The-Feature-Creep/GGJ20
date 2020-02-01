@@ -74,10 +74,26 @@ export default class Game {
     cars.push(player);
     world.add(player.body);
 
-    var car = new Player(0, 0, 50);
-    scene.add(car);
-    cars.push(car);
-    world.add(car.body);
+    {
+      var car = new Truck(0, 0, 50);
+      scene.add(car);
+      cars.push(car);
+      world.add(car.body);
+    }
+
+    {
+      var car = new Bus(0, 0, 70);
+      scene.add(car);
+      cars.push(car);
+      world.add(car.body);
+    }
+
+    {
+      var car = new Sedan(-10, 0, 70);
+      scene.add(car);
+      cars.push(car);
+      world.add(car.body);
+    }
   }
 
   initPhysics() {

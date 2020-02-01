@@ -74,7 +74,6 @@ export default class Truck extends Car{
 		main_body_bottom.position.z = 7.5;
 		this.add(main_body_bottom);
 
-
 		// Boot section
 		var boot_bed_geometry = new THREE.BoxGeometry(body_width, 2, 30);
 		let boot_bed = new THREE.Mesh(boot_bed_geometry, body_material);
@@ -102,7 +101,6 @@ export default class Truck extends Car{
 		boot_left.position.z = -17.5;
 		this.add(boot_left);
 
-
 		// Windows Front and Back
 		var window1_shape = new THREE.Shape();
 		window1_shape.moveTo(1, 0);
@@ -119,7 +117,6 @@ export default class Truck extends Car{
 		window1_body.position.z = 17.5;
 		this.add(window1_body);
 
-
 		var window2_shape = new THREE.Shape();
 		window2_shape.moveTo(-0.1, 0);
 		window2_shape.lineTo(20.1, 0);
@@ -135,11 +132,13 @@ export default class Truck extends Car{
 		window2_body.position.z = 17.5;
 		this.add(window2_body);
 
-
-
 		var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
 		var cylinder = new THREE.Mesh(cylinder_geometry, body_material);
 		this.add(cylinder);
+
+		this.scale.set(Truck.SCALE, Truck.SCALE, Truck.SCALE);
 		
 	}
 }
+
+Truck.SCALE = 0.15;

@@ -110,5 +110,9 @@ export default class Bus extends Car{
 		var main_window = new THREE.Mesh(main_window_geometry, window_material);
 		main_window.position.y = 20;
 		this.add(main_window);
+
+		this.scale.set(Bus.SCALE, Bus.SCALE, Bus.SCALE);
 	}
 }
+
+Bus.SCALE = 0.15;

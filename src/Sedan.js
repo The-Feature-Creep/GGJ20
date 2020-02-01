@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import Car from './Car';
 
-export default class Truck extends Car{
+export default class Sedan extends Car {
+	
 	makeModel(){
 		var body_width = 26;
 		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
@@ -108,9 +109,6 @@ export default class Truck extends Car{
 		mid2.position.y = 1;
 		mid2.position.z = -13;
 		this.add(mid2);
-
-		
-
 		
 		// Front Side window
 		var window1_shape = new THREE.Shape();
@@ -188,5 +186,9 @@ export default class Truck extends Car{
 		var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
 		var cylinder = new THREE.Mesh(cylinder_geometry, body_material);
 		this.add(cylinder);
+
+		this.scale.set(Sedan.SCALE, Sedan.SCALE, Sedan.SCALE);
 	}
 }
+
+Sedan.SCALE = 0.15;
