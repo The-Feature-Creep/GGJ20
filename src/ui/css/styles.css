@@ -36,11 +36,37 @@ height: 100%;
 	position: absolute;
 	z-index: 9999;
 	top: 0;
+	right: 0;
 	width: 30rem;
-	margin-left: 1rem;
+	margin-top: 1rem;
+	margin-right: 1.5rem;
+}
+
+.progress-wrapper{
+	display: flex;
 }
 
 .progress{
 	min-height: 1.5rem;
 }
+
+.no-select {
+	padding-top: 0.5rem;
+	margin-right: 1rem;
+	color: #FFFF33;
+	-webkit-touch-callout: none; /* iOS Safari */
+	  -webkit-user-select: none; /* Safari */
+	   -khtml-user-select: none; /* Konqueror HTML */
+		 -moz-user-select: none; /* Old versions of Firefox */
+		  -ms-user-select: none; /* Internet Explorer/Edge */
+			  user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Opera and Firefox */
+}
   
+.btn-floating{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin-left: 2rem;
+	margin-bottom: 2rem;
+}
