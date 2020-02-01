@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import Stats from './libs/stats.module.js';
 
 import Game from './Game';
-import Box from './Box';
 
 var container, stats, renderer, game;
 let lastTime = 0.0;

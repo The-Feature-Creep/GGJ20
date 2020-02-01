@@ -2,10 +2,13 @@ import * as THREE from 'three';
 
 import { OrbitControls } from './libs/OrbitControls.js';
 
-import Box from './Box';
 import Car from './Car.js';
+import Coin from './Coin.js';
+import Player from './Player.js';
+import Truck from './Truck.js';
+import Bus from './Bus.js';
 
-var scene, camera, boxes, controls;
+var scene, camera, controls, coin;
 
 export default class Game {
 
@@ -33,15 +36,25 @@ export default class Game {
     scene.add(light);
 	scene.add(ambient);
 
-	let car = new Car();
+	var car = new Car();
 	scene.add(car);
 
-	
-	
+	// var player = new Player();
+	// scene.add(player);
+
+	var truck = new Truck();
+	scene.add(truck);
+
+	// var bus = new Bus();
+	// scene.add(bus);
+
+	// coin = new Coin();
+	// scene.add(coin);
   }
 
   update(delta) {
 	controls.update();
+	// coin.update(delta);
 	    
   }
 
