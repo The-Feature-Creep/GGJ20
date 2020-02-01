@@ -3,20 +3,20 @@ import * as CANNON from 'cannon';
 
 export default class Car extends THREE.Object3D {
 
-  constructor() {
+  constructor(x, y, z) {
     super();
 
     this.makeModel();
 
     this.position.y = 1.5;
 
-    var radius = 0.7; // m
     this.body = new CANNON.Body({
-      mass: 150, // kg
-      position: new CANNON.Vec3(5, 5, 20), // m
-      shape: new CANNON.Box(new CANNON.Vec3(radius, radius, radius)),
-      material: new CANNON.Material("carMaterial"),
-      linearDamping: 0.98
+      mass: 20, // kg
+      position: new CANNON.Vec3(x, y, z), // m
+      shape: new CANNON.Box(new CANNON.Vec3(3, 1.6, 4)),
+      material: Car.physicsMaterial,
+      linearDamping: 0.2,
+      angularDamping: 0.6
     });
   }
 
@@ -34,8 +34,25 @@ export default class Car extends THREE.Object3D {
     this.quaternion.w = this.body.quaternion.w;
   }
 
-  drive() {
-    console.log("Drive");
-    this.body.applyLocalForce(new CANNON.Vec3(10, 10, 20), this.body.position);
+  drive(dir = 1) {
+    var rot = this.body.quaternion.toAxisAngle(new CANNON.Vec3(0, 0, 1));
+    var vector = new CANNON.Vec3();
+    this.body.quaternion.toEuler(vector);
+    var rx = Math.sin(vector.y);
+    var rz = Math.cos(vector.y);
+    this.body.applyForce(new CANNON.Vec3(rx * 200 * dir, 0, rz * 200 * dir), this.body.position);
+  }
+
+  turn(dir) {
+    let speed = this.body.velocity.length() * 8;
+    var quat = new CANNON.Quaternion();
+    quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI/2 * dir * 0.001 * speed);
+    this.body.quaternion = quat.mult(this.body.quaternion);
+  }
+
+  brake() {
+    this.drive(-0.5);
   }
 }
+
+Car.physicsMaterial = new CANNON.Material("carMaterial");

@@ -11,9 +11,8 @@ import Player from './Player.js';
 
 const UP = new THREE.Vector3(0, 1, 0);
 const EPSILON = 0.00001;
-const GAME_SPEED = 1.0;
 const PHYSICS_TIMESTEP = 1.0 / 60.0;
-const PHYSICS_SUBSTEPS = 4;
+const PHYSICS_SUBSTEPS = 2;
 
 let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
 let input = {};
@@ -59,7 +58,7 @@ export default class Game {
 
     this.initPhysics();
 
-    // generatre roads
+    // generate roads
     for (var i = 0; i < 10; i++)
     {
       var road = new RoadSegment();
@@ -81,6 +80,11 @@ export default class Game {
     scene.add(player);
     cars.push(player);
     world.add(player.body);
+
+    var car = new Player(0, 0, 50);
+    scene.add(car);
+    cars.push(car);
+    world.add(car.body);
   }
 
   initPhysics() {
@@ -89,6 +93,10 @@ export default class Game {
     debug = new CannonDebugRenderer(scene, world);
 
     var groundMaterial = new CANNON.Material("groundMaterial");
+    var frictionless_cm = new CANNON.ContactMaterial(groundMaterial, Car.physicsMaterial, {
+        friction: 0,
+        restitution: 0
+    });
     // Create a plane
     var groundBody = new CANNON.Body({
       mass: 0, // mass == 0 makes the body static
@@ -98,13 +106,15 @@ export default class Game {
     groundBody.addShape(plane);
     groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0), -Math.PI/2);
     world.addBody(groundBody);
+    world.addContactMaterial(frictionless_cm);
+
   }
 
   update(delta) {
     controls.target = player.position;
     controls.update();
 
-    world.step(Math.max(PHYSICS_TIMESTEP, EPSILON), Math.max(delta, EPSILON), PHYSICS_SUBSTEPS);
+    world.step(PHYSICS_TIMESTEP, PHYSICS_SUBSTEPS);
     
     cube.rotation.x += 0.5 * delta;
     cube.rotation.z += 0.5 * delta;
@@ -119,6 +129,12 @@ export default class Game {
 
     if (input[keys.UP])
       player.drive();
+    if (input[keys.LEFT])
+      player.turn(-1);
+    if (input[keys.RIGHT])
+      player.turn(1);
+    if (input[keys.DOWN])
+      player.brake();
   }
 
   render(renderer) {
