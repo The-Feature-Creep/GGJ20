@@ -75,10 +75,6 @@ export default class Bus extends Car {
 		body.position.z = -50;
 		this.add(body);
 
-		var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
-		var cylinder = new THREE.Mesh(cylinder_geometry, body_material);
-		this.add(cylinder);
-
 		var window_geometry = new THREE.BoxGeometry(body_width+2.1, window_height, window_width);
 
 		var window1 = new THREE.Mesh(window_geometry, window_material);
@@ -121,6 +117,10 @@ export default class Bus extends Car {
 		var main_window = new THREE.Mesh(main_window_geometry, window_material);
 		main_window.position.y = 20;
 		this.add(main_window);
+
+		// var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
+		// var cylinder = new THREE.Mesh(cylinder_geometry, body_material);
+		// this.add(cylinder);
 
 		this.scale.set(Bus.SCALE, Bus.SCALE, Bus.SCALE);
 	}

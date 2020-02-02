@@ -156,18 +156,9 @@ export default class Station extends THREE.Object3D {
     window1.position.z = -8;
     this.add(window1);
     
-    var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
-    var cylinder = new THREE.Mesh(cylinder_geometry, window_material);
-	this.add(cylinder);
-	
-
-
-
-
-
-
-
-	
+    // var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
+    // var cylinder = new THREE.Mesh(cylinder_geometry, window_material);
+	// this.add(cylinder);
 	
 	var curve_shape = new THREE.Shape()
 		curve_shape.moveTo(-4, 0);
@@ -204,14 +195,6 @@ export default class Station extends THREE.Object3D {
 		floor.position.x = 9;
 		floor.position.y = -0.6
 		this.add(floor);
-
-
-
-
-
-
-
-
 
 
     this.body = new CANNON.Body({

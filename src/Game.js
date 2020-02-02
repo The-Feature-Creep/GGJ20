@@ -144,7 +144,7 @@ export default class Game {
       if (distanceCounter % TRAFFIC_INTERVAL == 0 && Math.random() > 0.4)
         this.addTraffic();
 
-      station.setPosition(Math.floor(distanceCounter / 1000) * 1100 + 50);
+      station.setPosition(Math.floor(distanceCounter / 1000) * 1100 + 500);
     }
 
     coins.forEach(coin => {
