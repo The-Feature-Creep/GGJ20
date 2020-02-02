@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import RoadSegment from './RoadSegment';
+import SoundManager from './SoundManager';
 
 export default class Coin extends THREE.Object3D {
 
@@ -52,6 +53,7 @@ export default class Coin extends THREE.Object3D {
   collect() {
     this.collected = true;
     this.counter = 0;
+    SoundManager.playCoinSound();
   }
 }
 

@@ -177,7 +177,10 @@ export default class Game {
       if (Math.abs(dz) > ROAD_SEGMENTS * RoadSegment.LENGTH/2)
         road.position.z += RoadSegment.LENGTH * ROAD_SEGMENTS * (dz > 0 ? 1 : -1);
       if (Math.abs(dz) < RoadSegment.LENGTH/2 && road.testPothole(player))
+      {
+        SoundManager.playPotholeSound();
         player.takeDamage(0.1 * player.getSpeed());
+      }
     });
 
     if (station.containsCar(player))
