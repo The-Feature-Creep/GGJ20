@@ -25,7 +25,7 @@ function init() {
   stats = new Stats();
   stats.domElement.style.position = 'absolute';
   stats.domElement.style.top = '0px';
-  container.appendChild( stats.domElement );
+  //container.appendChild( stats.domElement );
   //
   game = new Game(renderer);
 
@@ -33,6 +33,8 @@ function init() {
   window.addEventListener('keyup', handleKeyUp, false);
   window.addEventListener('mousemove', onMouseMove, false);
   window.addEventListener('mousedown', onMouseDown, false);
+
+  console.log("v1.0.1");
 }
 
 function update(time) {
@@ -62,7 +64,6 @@ function onMouseMove(event) {
 function onMouseDown(event) {
   game.onMouseDown(event);
 }
-
 
 // Jquery
 $(document).on('click', '#start-game', function(){

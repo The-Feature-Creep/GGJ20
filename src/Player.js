@@ -24,8 +24,8 @@ export default class Player extends Car {
 
 	makeModel() {
 		var body_width = 26;
-		var wheel_material = new THREE.MeshPhongMaterial( {color: 0x000000, flatShading: true} );
-		var window_material = new THREE.MeshBasicMaterial( {color: 0xffffff, flatShading: true});
+		var wheel_material = new THREE.MeshPhongMaterial({color: 0x000000, flatShading: true});
+		var window_material = new THREE.MeshBasicMaterial({color: 0xffffff, flatShading: true});
     var body_material = new THREE.ShaderMaterial(this.shader);
 
 		//  Wheels
