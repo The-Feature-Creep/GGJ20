@@ -229,11 +229,10 @@ export default class Game {
 
         $('#station-menu').show();
         inStation = true;
-        
-      } else {
-        inStation = false;
-        $('#station-menu').hide();
       }
+    } else {
+      inStation = false;
+      $('#station-menu').hide();
     }
 
     if (input[keys.UP] || input[keys.W])
