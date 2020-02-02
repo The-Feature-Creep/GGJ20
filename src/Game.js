@@ -26,6 +26,7 @@ let input = {};
 
 var scene, world, debug, camera, cube, road, controls, player;
 
+let frameCounter = 0;
 let distanceCounter = 0;
 let coinsCollected = 0;
 let damageTaken = 0;
@@ -172,6 +173,10 @@ export default class Game {
       player.turn(1);
 
     this.cleanup();
+
+    if (frameCounter % 10 == 0)
+      this.updateUI();
+    frameCounter++;
   }
 
   addCoin() {
@@ -233,6 +238,11 @@ export default class Game {
         coins.splice(i, 1);
       }
     }
+  }
+
+  updateUI() {
+    document.getElementById("power-bar").style.width = (player.charge / player.maxCharge * 100) + "%";
+    document.getElementById("integrity-bar").style.width = (player.damage / player.maxDamage * 100) + "%";
   }
 
   render(renderer) {

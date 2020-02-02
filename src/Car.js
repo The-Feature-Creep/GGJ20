@@ -29,7 +29,10 @@ export default class Car extends THREE.Object3D {
     this.wheel3 = null;
     this.wheel4 = null;
     this.wheelRot = 0;
+    this.maxDamage = 100;
     this.damage = 0;
+    this.maxCharge = 100;
+    this.charge = this.maxCharge;
 
     this.makeModel();
 
@@ -56,8 +59,8 @@ export default class Car extends THREE.Object3D {
     this.collided = true;
     this.damage += amount;
 
-    if (this.damage > 100)
-      this.damage = 100;
+    if (this.damage > this.maxDamage)
+      this.damage = this.maxDamage;
   }
 
   getMass() {
@@ -147,6 +150,8 @@ export default class Car extends THREE.Object3D {
     this.body.applyForce(new CANNON.Vec3(rx * this.maxSpeed * dir, 0, rz * this.maxSpeed * dir), this.body.position);
 
     this.wheelRot *= 0.75;
+    if (this.charge > 0)
+      this.charge -= 0.1;
   }
 
   turn(dir) {
@@ -163,6 +168,12 @@ export default class Car extends THREE.Object3D {
 
   brake() {
     this.drive(-0.5);
+  }
+
+  recharge(amount) {
+    this.charge += amount;
+    if (this.charge > this.maxCharge)
+      this.charge = this.maxCharge;
   }
 }
 
