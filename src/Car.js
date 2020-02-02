@@ -26,6 +26,9 @@ export default class Car extends THREE.Object3D {
     this.reversing = false;
     this.wheel1 = null;
     this.wheel2 = null;
+    this.wheel3 = null;
+    this.wheel4 = null;
+    this.wheelRot = 0;
 
     this.makeModel();
 
@@ -123,6 +126,11 @@ export default class Car extends THREE.Object3D {
     this.quaternion.y = this.body.quaternion.y;
     this.quaternion.z = this.body.quaternion.z;
     this.quaternion.w = this.body.quaternion.w;
+
+    if (this.wheel1 != null)
+      this.wheel1.rotation.y = this.wheelRot;
+    if (this.wheel2 != null)
+      this.wheel2.rotation.y = this.wheelRot;
   }
 
   drive(dir = 1) {
@@ -132,19 +140,14 @@ export default class Car extends THREE.Object3D {
     var rz = Math.cos(vector.y);
     this.reversing = dir < 0;
     this.body.applyForce(new CANNON.Vec3(rx * this.maxSpeed * dir, 0, rz * this.maxSpeed * dir), this.body.position);
-  
-    if (this.wheel1 != null)
-      this.wheel1.rotation.y = 0;
-    if (this.wheel2 != null)
-      this.wheel2.rotation.y = 0;
+
+    this.wheelRot *= 0.75;
   }
 
   turn(dir) {
-    if (this.wheel1 != null)
-      this.wheel1.rotation.y = -Math.PI/8 * dir;
-    if (this.wheel2 != null)
-      this.wheel2.rotation.y = -Math.PI/8 * dir;
-    
+    var t = -Math.PI/8 * dir;
+    this.wheelRot += (t - this.wheelRot)/8;
+
     let speed = Math.min(this.body.velocity.length() * 8, 20 - this.body.velocity.length());
     var quat = new CANNON.Quaternion();
     if (this.reversing)
