@@ -184,6 +184,12 @@ export default class Car extends THREE.Object3D {
     if (this.charge > this.maxCharge)
       this.charge = this.maxCharge;
   }
+
+  repair(amount) {
+    this.damage -= amount;
+    if (this.damage < 0)
+      this.damage = 0;
+  }
 }
 
 Car.physicsMaterial = new CANNON.Material("carMaterial");

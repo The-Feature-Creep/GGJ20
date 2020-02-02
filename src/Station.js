@@ -88,4 +88,10 @@ export default class Station extends THREE.Object3D {
     this.pillarBody1.position.z = z + 13;
     this.pillarBody2.position.z = z - 13;
   }
+
+  containsCar(car) {
+    var dx = car.position.x - this.position.x;
+    var dz = car.position.z - this.position.z;
+    return Math.abs(dx) < 15 && Math.abs(dz) < 10;
+  }
 }

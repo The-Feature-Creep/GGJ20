@@ -166,6 +166,12 @@ export default class Game {
         player.takeDamage(0.1 * player.getSpeed());
     });
 
+    if (station.containsCar(player))
+    {
+      player.recharge(1);
+      player.repair(1);
+    }
+
     if (input[keys.UP])
       player.drive();
     else if (input[keys.DOWN])
