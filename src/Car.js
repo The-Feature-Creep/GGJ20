@@ -117,6 +117,10 @@ export default class Car extends THREE.Object3D {
     return this.calcRotation(-2.6, -1.8);
   }
 
+  getBonnet() {
+    return this.calcRotation(3.5, 0);
+  }
+
   calcRotation(px, pz) {
     var vector = new CANNON.Vec3();
     this.body.quaternion.toEuler(vector);

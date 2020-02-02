@@ -119,12 +119,12 @@ export default class Game {
   }
 
   update(delta) {
-    //camera.position.set(0, 25, player.position.z - 40);
+    camera.position.set(0, 25, player.position.z - 40);
     controls.target = player.position;
     controls.update();
 
     ps.update(camera, delta);
-    ps.emit(player.position.clone().setY(3));
+    ps.emit(player.getBonnet().setY(3));
 
     damageTaken = player.damage;
 
