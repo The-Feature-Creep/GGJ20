@@ -17,14 +17,14 @@ const UP = new THREE.Vector3(0, 1, 0);
 const EPSILON = 0.00001;
 const PHYSICS_TIMESTEP = 1.0 / 60.0;
 const PHYSICS_SUBSTEPS = 4;
-const ROAD_SEGMENTS = 25;
+const ROAD_SEGMENTS = 40;
 const COIN_INTERVAL = 20;
 const TRAFFIC_INTERVAL = 40;
 
 let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
 let input = {};
 
-var scene, world, debug, camera, cube, road, controls, player;
+var scene, world, debug, camera, cube, road, controls, player, station;
 
 let frameCounter = 0;
 let distanceCounter = 0;
@@ -82,7 +82,8 @@ export default class Game {
     cars.push(player);
     world.add(player.body);
     
-    var station = new Station();
+    station = new Station();
+    station.setPosition(500);
     scene.add(station);
     world.addBody(station.body);
     world.addBody(station.pillarBody1);
@@ -129,6 +130,8 @@ export default class Game {
         this.addCoin();
       if (distanceCounter % TRAFFIC_INTERVAL == 0 && Math.random() > 0.4)
         this.addTraffic();
+
+      station.setPosition(Math.floor(distanceCounter / 1000) * 1100 + 500);
     }
 
     coins.forEach(coin => {

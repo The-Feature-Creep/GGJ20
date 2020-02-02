@@ -81,4 +81,11 @@ export default class Station extends THREE.Object3D {
       material: new CANNON.Material("stationMaterial")
     });
   }
+
+  setPosition(z) {
+    this.position.z = z;
+    this.body.position.z = z;
+    this.pillarBody1.position.z = z + 13;
+    this.pillarBody2.position.z = z - 13;
+  }
 }
