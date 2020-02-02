@@ -48,6 +48,7 @@ export default class Car extends THREE.Object3D {
     setTimeout(() => {
       this.body.addEventListener("collide", (e) => {
         var relativeVelocity = e.contact.getImpactVelocityAlongNormal();
+        console.log(e);
         if (relativeVelocity >= 0.5)
           this.takeDamage(relativeVelocity);
       });
@@ -116,6 +117,10 @@ export default class Car extends THREE.Object3D {
     return this.calcRotation(-2.6, -1.8);
   }
 
+  getBonnet() {
+    return this.calcRotation(3.5, 0);
+  }
+
   calcRotation(px, pz) {
     var vector = new CANNON.Vec3();
     this.body.quaternion.toEuler(vector);
@@ -144,12 +149,21 @@ export default class Car extends THREE.Object3D {
   }
 
   drive(dir = 1) {
+
+    if (this.damage >= this.maxDamage)
+      return;
+
+    let speed = this.maxSpeed;
+
+    if (this.charge <= this.maxCharge / 4)
+      speed *= this.charge / (this.maxCharge / 4);
+
     var vector = new CANNON.Vec3();
     this.body.quaternion.toEuler(vector);
     var rx = Math.sin(vector.y);
     var rz = Math.cos(vector.y);
     this.reversing = dir < 0;
-    this.body.applyForce(new CANNON.Vec3(rx * this.maxSpeed * dir, 0, rz * this.maxSpeed * dir), this.body.position);
+    this.body.applyForce(new CANNON.Vec3(rx * speed * dir, 0, rz * speed * dir), this.body.position);
 
     this.wheelRot *= 0.75;
     if (this.charge > 0)

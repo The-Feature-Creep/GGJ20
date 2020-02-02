@@ -12,6 +12,7 @@ import Truck from './Truck.js';
 import Bus from './Bus.js';
 import Sedan from './Sedan.js';
 import Station from './Station.js';
+import ParticleSystem from './ParticleSystem.js';
 
 const UP = new THREE.Vector3(0, 1, 0);
 const EPSILON = 0.00001;
@@ -24,9 +25,10 @@ const TRAFFIC_INTERVAL = 40;
 let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
 let input = {};
 
-var scene, world, debug, camera, cube, road, controls, player, station;
+var scene, world, debug, camera, cube, road, controls, player, station, ps;
 
 let frameCounter = 0;
+let particleCounter = 0;
 let distanceCounter = 0;
 let coinsCollected = 0;
 let damageTaken = 0;
@@ -65,6 +67,9 @@ export default class Game {
     scene.add(light);
     scene.add(ambient);
 
+    ps = new ParticleSystem({ particleColor: 0xffffff });
+    scene.add(ps);
+
     this.initPhysics();
 
     // generate roads
@@ -88,6 +93,7 @@ export default class Game {
     world.addBody(station.body);
     world.addBody(station.pillarBody1);
     world.addBody(station.pillarBody2);
+    world.addBody(station.boxBody);
   }
 
   initPhysics() {
@@ -118,6 +124,13 @@ export default class Game {
     controls.target = player.position;
     controls.update();
 
+    ps.update(camera, delta);
+    if (particleCounter >= (player.maxDamage - player.damage) && player.damage > player.maxDamage * 0.8)
+    {
+      particleCounter = 0;
+      ps.emit(player.getBonnet().setY(3));
+    }
+
     damageTaken = player.damage;
 
     world.step(PHYSICS_TIMESTEP, PHYSICS_SUBSTEPS);
@@ -137,7 +150,7 @@ export default class Game {
     coins.forEach(coin => {
       coin.update(delta);
 
-      if (coin.position.distanceTo(player.position) < 5)
+      if (coin.position.distanceTo(player.position) < 5 && !coin.collected)
       {
         coinsCollected++;
         coin.collect();
@@ -183,9 +196,10 @@ export default class Game {
 
     this.cleanup();
 
-    if (frameCounter % 10 == 0)
+    if (frameCounter % 3 == 0)
       this.updateUI();
     frameCounter++;
+    particleCounter++;
   }
 
   addCoin() {
@@ -252,6 +266,22 @@ export default class Game {
   updateUI() {
     document.getElementById("power-bar").style.width = (player.charge / player.maxCharge * 100) + "%";
     document.getElementById("integrity-bar").style.width = (player.damage / player.maxDamage * 100) + "%";
+    document.getElementById("distance").innerHTML = distanceCounter + "m";
+    document.getElementById("coins").innerHTML = coinsCollected + " MC";
+
+    if (player.charge / player.maxCharge < 0.2)
+      document.getElementById("power-bar").style.backgroundColor = "#ff0000";
+    else if (player.charge / player.maxCharge < 0.4)
+      document.getElementById("power-bar").style.backgroundColor = "#ffcc00";
+    else
+      document.getElementById("power-bar").style.backgroundColor = "#26a69a";
+
+    if (player.damage / player.maxDamage > 0.8)
+      document.getElementById("integrity-bar").style.backgroundColor = "#ff0000";
+    else if (player.damage / player.maxDamage > 0.6)
+      document.getElementById("integrity-bar").style.backgroundColor = "#ffcc00";
+    else
+      document.getElementById("integrity-bar").style.backgroundColor = "#26a69a";
   }
 
   render(renderer) {

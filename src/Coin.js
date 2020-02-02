@@ -13,7 +13,7 @@ export default class Coin extends THREE.Object3D {
 
     var geometry = new THREE.CylinderBufferGeometry( 8, 8, 2, 32 );
     geometry.rotateX(Math.PI/2);
-    this.material = new THREE.MeshPhongMaterial({ color: 0xffd271, flatShading: true, transparent: true });
+    this.material = new THREE.MeshPhongMaterial({ color: 0xffd369, transparent: true });
     this.body = new THREE.Mesh(geometry, this.material);
     this.add(this.body);
 
