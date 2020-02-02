@@ -7,7 +7,7 @@ body {
 
 .menu-wrapper{
 	position: absolute;
-	z-index: 9999;
+	z-index: 999;
 	top: 0;
 	width: 100%;
 	height: 100%;
@@ -15,7 +15,7 @@ body {
 
 .shader{
 	position: absolute;
-	z-index: 9999;
+	z-index: 998;
 	top: 0;
 	width: 100%;
 	height: 100%;
@@ -52,7 +52,7 @@ h3 {
 
 .hud{
 	position: absolute;
-	z-index: 9998;
+	z-index: 2 !important;
 	color: #230444;
 	top: 0;
 	right: 0;
@@ -155,13 +155,13 @@ h3 {
 	align-self: center;
 }
 
-.start-menu-btn{
+.start-menu-btn, .menu-btn{
 	background-color: #39bdc8;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 	font-size: 1.5rem;
 }
 
-.start-menu-btn:hover{
+.start-menu-btn:hover, .menu-btn:hover{
 	background-color: #59d4e8;
 }
