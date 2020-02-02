@@ -37,6 +37,7 @@ let coinsCollected = 0;
 let damageTaken = 0;
 let chargeRemaining = 100;
 let inStation = false;
+let stationInterval = 1000;
 
 let cars = [];
 let roads = [];
@@ -136,8 +137,8 @@ export default class Game {
       ps.emit(player.getBonnet().setY(3));
     }
 
-	damageTaken = player.damage;
-	chargeRemaining = player.charge/player.maxCharge*100;
+    damageTaken = player.damage;
+    chargeRemaining = player.charge/player.maxCharge*100;
 
     world.step(PHYSICS_TIMESTEP, PHYSICS_SUBSTEPS);
     
@@ -150,7 +151,11 @@ export default class Game {
       if (distanceCounter % TRAFFIC_INTERVAL == 0 && Math.random() > 0.4)
         this.addTraffic();
 
-      station.setPosition(Math.floor(distanceCounter / 1000) * 1100 + 500);
+      if (player.position.z - station.position.z > stationInterval/2)
+      {
+        stationInterval += 100;
+        station.setPosition(station.position.z + stationInterval);
+      }
     }
 
     coins.forEach(coin => {
@@ -190,35 +195,38 @@ export default class Game {
 
     if (station.containsCar(player))
     {
-	//   player.recharge(1);
-	//   player.repair(1);
-		if (!inStation) {
-			$('#recharge').removeClass('disabled');
-			$('#repair').removeClass('disabled');
-			if (coinsCollected == 0)  {
-				$('#recharge').addClass('disabled');
-				$('#repair').addClass('disabled');
-			} else {
-				console.log(damageTaken);
-				if (damageTaken == 0) {
-					$('#repair').addClass('disabled');
-				} else {
-					$('#repair').removeClass('disabled');
-				}
-				if (chargeRemaining == 100) {
-					$('#recharge').addClass('disabled');
-				} else {
-					$('#recharge').removeClass('disabled');
-				}
-			}
-			$('#station-menu').show();
-			inStation = true;
-			
-		}
-    } else {
-		inStation = false;
-		$('#station-menu').hide();
-	}
+      if (!inStation) {
+
+        $('#recharge').removeClass('disabled');
+        $('#repair').removeClass('disabled');
+
+        if (coinsCollected == 0) {
+          $('#recharge').addClass('disabled');
+          $('#repair').addClass('disabled');
+        } else {
+
+          if (damageTaken == 0) {
+            $('#repair').addClass('disabled');
+          } else {
+            $('#repair').removeClass('disabled');
+          }
+
+          if (chargeRemaining == 100) {
+            $('#recharge').addClass('disabled');
+          } else {
+            $('#recharge').removeClass('disabled');
+          }
+
+        }
+
+        $('#station-menu').show();
+        inStation = true;
+        
+      } else {
+        inStation = false;
+        $('#station-menu').hide();
+      }
+    }
 
     if (input[keys.UP] || input[keys.W])
       player.drive();
@@ -308,10 +316,9 @@ export default class Game {
   }
 
   onLose() {
-	SoundManager.playSadTrombone();
-	$('.shader').show();
-	$('#death-menu').show();
-	
+    SoundManager.playSadTrombone();
+    $('.shader').show();
+    $('#death-menu').show();
   }
 
   updateUI() {
@@ -336,7 +343,7 @@ export default class Game {
   }
 
   render(renderer) {
-    // debug.update(); // turn off for physics debug rendering
+    //debug.update(); // turn off for physics debug rendering
     renderer.render(scene, camera);
   }
 
@@ -359,25 +366,25 @@ export default class Game {
 }
 
 $(document).on('click', '#recharge', function(e){
-	coinsCollected--;
-	player.recharge(10);
-	if (player.charge >= player.maxCharge) {
-		$('#recharge').addClass('disabled');
-	}
-	if (coinsCollected == 0){
-		$('#recharge').addClass('disabled');
-		$('#repair').addClass('disabled');
-	}
+  coinsCollected--;
+  player.recharge(10);
+  if (player.charge >= player.maxCharge) {
+    $('#recharge').addClass('disabled');
+  }
+  if (coinsCollected == 0){
+    $('#recharge').addClass('disabled');
+    $('#repair').addClass('disabled');
+  }
 });
 
 $(document).on('click', '#repair', function(e){
-	coinsCollected--;
-	player.repair(10);
-	if (player.damage <= 0 || coinsCollected == 0) {
-		$('#repair').addClass('disabled');
-	}
-	if (coinsCollected == 0){
-		$('#recharge').addClass('disabled');
-		$('#repair').addClass('disabled');
-	}
+  coinsCollected--;
+  player.repair(10);
+  if (player.damage <= 0 || coinsCollected == 0) {
+    $('#repair').addClass('disabled');
+  }
+  if (coinsCollected == 0){
+    $('#recharge').addClass('disabled');
+    $('#repair').addClass('disabled');
+  }
 });
