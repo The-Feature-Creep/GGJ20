@@ -37,6 +37,11 @@ display: flex;
 height: 100%;
 }
 
+img.cover {
+	max-width: 580px;
+	margin-bottom: 10px;
+}
+
 .menu-btn{
 	width: 100%;
 }
