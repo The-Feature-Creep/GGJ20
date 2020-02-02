@@ -55,7 +55,9 @@ export default class Car extends THREE.Object3D {
   }
 
   takeDamage(amount) {
-    this.shader.uniforms["amount"].value = 1.0;
+    if (amount > 0)
+      this.shader.uniforms["amount"].value = 1.0;
+
     this.collided = true;
     this.damage += amount;
 
@@ -151,11 +153,11 @@ export default class Car extends THREE.Object3D {
 
     this.wheelRot *= 0.75;
     if (this.charge > 0)
-      this.charge -= 0.1;
+      this.charge -= 0.04;
   }
 
   turn(dir) {
-    var t = -Math.PI/8 * dir;
+    var t = -Math.PI/4 * dir;
     this.wheelRot += (t - this.wheelRot)/8;
 
     let speed = Math.min(this.body.velocity.length() * 8, 20 - this.body.velocity.length());
@@ -164,6 +166,13 @@ export default class Car extends THREE.Object3D {
       dir = -dir;
     quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -dir * speed * 0.0015);
     this.body.quaternion = quat.mult(this.body.quaternion);
+  }
+
+  getSpeed() {
+    let speed = this.body.velocity.length();
+    if (speed < 0.1) 
+      return 0;
+    return speed;
   }
 
   brake() {

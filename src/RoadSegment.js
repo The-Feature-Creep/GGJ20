@@ -56,10 +56,6 @@ export default class RoadSegment extends THREE.Object3D {
     let bl = this.testPosition(car.getWheelBL());
     let br = this.testPosition(car.getWheelBR());
 
-    // test each wheel for collision with pothole
-    if (fl < 0 || fr < 0 || bl < 0 || br < 0)
-      car.takeDamage(0.2);
-
     if (car.wheel1 != null)
       car.wheel1.position.y = fr * 6;
     if (car.wheel2 != null)
@@ -68,6 +64,10 @@ export default class RoadSegment extends THREE.Object3D {
       car.wheel3.position.y = br * 6;
     if (car.wheel4 != null)
       car.wheel4.position.y = bl * 6;
+
+    // test each wheel for collision with pothole
+    if (fl < 0 || fr < 0 || bl < 0 || br < 0)
+      return true;
 
   }
 

@@ -160,7 +160,7 @@ export default class Game {
       if (Math.abs(dz) > ROAD_SEGMENTS * RoadSegment.LENGTH/2)
         road.position.z += RoadSegment.LENGTH * ROAD_SEGMENTS * (dz > 0 ? 1 : -1);
       if (Math.abs(dz) < RoadSegment.LENGTH/2 && road.testPothole(player))
-        player.takeDamage(0.2);
+        player.takeDamage(0.1 * player.getSpeed());
     });
 
     if (input[keys.UP])

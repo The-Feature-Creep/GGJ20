@@ -12,7 +12,6 @@ import './ui/js/scripts.js';
 
 var container, stats, renderer, game;
 let lastTime = 0.0;
-var $ = require('jquery');
 
 init();
 update(lastTime);
