@@ -69,6 +69,11 @@ let drive = new Howl({
   loop: true
 });
 
+let backup = new Howl({
+  src: ['sounds/backup.ogg'],
+  loop: true
+});
+
 class SoundManager {
 
   playHitSound() {
@@ -93,10 +98,15 @@ class SoundManager {
 
   playDriveSound() {
     drive.play();
+    backup.play();
   }
 
   setDriveSoundVol(vol) {
     drive.volume(vol);
+  }
+
+  setReverseSoundVol(vol) {
+    backup.volume(vol);
   }
 
 }

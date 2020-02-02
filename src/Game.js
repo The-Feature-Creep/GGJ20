@@ -95,6 +95,8 @@ export default class Game {
     world.addBody(station.pillarBody1);
     world.addBody(station.pillarBody2);
     world.addBody(station.boxBody);
+
+    SoundManager.playDriveSound();
   }
 
   initPhysics() {
@@ -117,7 +119,6 @@ export default class Game {
     groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0), -Math.PI/2);
     world.addBody(groundBody);
     world.addContactMaterial(frictionless_cm);
-
   }
 
   update(delta) {
@@ -204,6 +205,9 @@ export default class Game {
       this.updateUI();
     frameCounter++;
     particleCounter++;
+
+    SoundManager.setDriveSoundVol(Math.min(1, player.getSpeed() / 4));
+    SoundManager.setReverseSoundVol(Math.min(player.reversing ? 1:0, player.getSpeed() / 4));
   }
 
   addCoin() {
