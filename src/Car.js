@@ -3,6 +3,8 @@ import * as CANNON from 'cannon';
 
 import { BasicShader } from './libs/BasicShader.js';
 
+import SoundManager from './SoundManager';
+
 const UP = new THREE.Vector3(0, 1, 0);
 
 export default class Car extends THREE.Object3D {
@@ -24,6 +26,7 @@ export default class Car extends THREE.Object3D {
     this.maxSpeed = 300;
     this.collided = false;
     this.reversing = false;
+    this.honked = false;
     this.wheel1 = null;
     this.wheel2 = null;
     this.wheel3 = null;
@@ -48,9 +51,17 @@ export default class Car extends THREE.Object3D {
     setTimeout(() => {
       this.body.addEventListener("collide", (e) => {
         var relativeVelocity = e.contact.getImpactVelocityAlongNormal();
-        console.log(e);
         if (relativeVelocity >= 0.5)
+        {
           this.takeDamage(relativeVelocity);
+          SoundManager.playHitSound();
+        }
+
+        if (e.target.material.name === "carMaterial" && e.body.material.name === "carMaterial" && !this.honked)
+        {
+          this.honked = true;
+          SoundManager.playHornSound();
+        }
       });
     }, 1000);
   }

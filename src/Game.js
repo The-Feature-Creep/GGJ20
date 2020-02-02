@@ -7,12 +7,13 @@ import CannonDebugRenderer from './utils/CannonDebugRenderer.js';
 import RoadSegment from './RoadSegment';
 import Car from './Car';
 import Coin from './Coin';
-import Player from './Player.js';
-import Truck from './Truck.js';
-import Bus from './Bus.js';
-import Sedan from './Sedan.js';
-import Station from './Station.js';
-import ParticleSystem from './ParticleSystem.js';
+import Player from './Player';
+import Truck from './Truck';
+import Bus from './Bus';
+import Sedan from './Sedan';
+import Station from './Station';
+import ParticleSystem from './ParticleSystem';
+import SoundManager from './SoundManager';
 
 const UP = new THREE.Vector3(0, 1, 0);
 const EPSILON = 0.00001;
@@ -22,12 +23,13 @@ const ROAD_SEGMENTS = 40;
 const COIN_INTERVAL = 20;
 const TRAFFIC_INTERVAL = 40;
 
-let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
+let keys = { A: 65, W: 87, D: 68, S: 83, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 };
 let input = {};
 
 var $ = require('jquery');
 var scene, world, debug, camera, cube, road, controls, player, station, ps;
 
+let lost = false;
 let frameCounter = 0;
 let particleCounter = 0;
 let distanceCounter = 0;
@@ -96,6 +98,8 @@ export default class Game {
     world.addBody(station.pillarBody1);
     world.addBody(station.pillarBody2);
     world.addBody(station.boxBody);
+
+    SoundManager.playDriveSound();
   }
 
   initPhysics() {
@@ -118,7 +122,6 @@ export default class Game {
     groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0), -Math.PI/2);
     world.addBody(groundBody);
     world.addContactMaterial(frictionless_cm);
-
   }
 
   update(delta) {
@@ -179,7 +182,10 @@ export default class Game {
       if (Math.abs(dz) > ROAD_SEGMENTS * RoadSegment.LENGTH/2)
         road.position.z += RoadSegment.LENGTH * ROAD_SEGMENTS * (dz > 0 ? 1 : -1);
       if (Math.abs(dz) < RoadSegment.LENGTH/2 && road.testPothole(player))
+      {
+        if (player.getSpeed() > 0) SoundManager.playPotholeSound();
         player.takeDamage(0.1 * player.getSpeed());
+      }
     });
 
     if (station.containsCar(player))
@@ -214,13 +220,13 @@ export default class Game {
 		$('#station-menu').hide();
 	}
 
-    if (input[keys.UP])
+    if (input[keys.UP] || input[keys.W])
       player.drive();
-    else if (input[keys.DOWN])
+    else if (input[keys.DOWN] || input[keys.S])
       player.brake();
-    if (input[keys.LEFT])
+    if (input[keys.LEFT] || input[keys.A])
       player.turn(-1);
-    if (input[keys.RIGHT])
+    if (input[keys.RIGHT] || input[keys.D])
       player.turn(1);
 
     this.cleanup();
@@ -229,6 +235,15 @@ export default class Game {
       this.updateUI();
     frameCounter++;
     particleCounter++;
+
+    SoundManager.setDriveSoundVol(Math.min(1, player.getSpeed() / 4));
+    SoundManager.setReverseSoundVol(Math.min(player.reversing ? 1:0, player.getSpeed() / 4));
+
+    if (!lost && (player.damage >= player.maxDamage || player.charge <= 0))
+    {
+      lost = true;
+      this.onLose();
+    }
   }
 
   addCoin() {
@@ -290,6 +305,10 @@ export default class Game {
         coins.splice(i, 1);
       }
     }
+  }
+
+  onLose() {
+    SoundManager.playSadTrombone();
   }
 
   updateUI() {
