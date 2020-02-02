@@ -113,7 +113,7 @@ export default class Game {
   }
 
   update(delta) {
-    // camera.position.set(0, 30, player.position.z - 30);
+    camera.position.set(0, 25, player.position.z - 40);
     controls.target = player.position;
     controls.update();
 
@@ -139,7 +139,7 @@ export default class Game {
         coinsCollected++;
         coin.collect();
       }
-      else if (coin.position.distanceTo(player.position) > 200)
+      else if (coin.position.distanceTo(player.position) > 300)
         coin.finished = true;
     });
 
@@ -151,7 +151,7 @@ export default class Game {
       if (!car.collided)
         car.drive();
 
-      if (car.position.distanceTo(player.position) > 200)
+      if (car.position.distanceTo(player.position) > 300)
         car.remove = true;
     });
 
@@ -181,7 +181,7 @@ export default class Game {
 
   addCoin() {
     var coin = new Coin();
-    coin.position.z = player.position.z + 100;
+    coin.position.z = player.position.z + 200;
     coins.push(coin);
     scene.add(coin);
   }
@@ -190,7 +190,7 @@ export default class Game {
     let lane = Math.floor(Math.random() * 4);
     let x = -12 + lane*8;
     let y = 3;
-    let z = player.position.z + 100;
+    let z = player.position.z + 200;
     var type = Math.floor(Math.random() * 3);
 
     var car = null;
