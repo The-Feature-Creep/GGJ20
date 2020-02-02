@@ -27,6 +27,9 @@ var scene, world, debug, camera, cube, road, controls, player;
 
 let distanceCounter = 0;
 let coinsCollected = 0;
+let damageTaken = 0;
+let chargeRemaining = 100;
+
 let cars = [];
 let roads = [];
 let coins = [];
@@ -105,6 +108,8 @@ export default class Game {
     camera.position.set(0, 30, player.position.z - 30);
     controls.target = player.position;
     controls.update();
+
+    damageTaken = player.damage;
 
     world.step(PHYSICS_TIMESTEP, PHYSICS_SUBSTEPS);
     

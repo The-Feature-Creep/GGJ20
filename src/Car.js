@@ -29,6 +29,7 @@ export default class Car extends THREE.Object3D {
     this.wheel3 = null;
     this.wheel4 = null;
     this.wheelRot = 0;
+    this.damage = 0;
 
     this.makeModel();
 
@@ -53,6 +54,10 @@ export default class Car extends THREE.Object3D {
   takeDamage(amount) {
     this.shader.uniforms["amount"].value = 1.0;
     this.collided = true;
+    this.damage += amount;
+
+    if (this.damage > 100)
+      this.damage = 100;
   }
 
   getMass() {
