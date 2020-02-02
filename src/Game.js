@@ -26,6 +26,7 @@ const TRAFFIC_INTERVAL = 40;
 let keys = { A: 65, W: 87, D: 68, S: 83, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 };
 let input = {};
 
+var $ = require('jquery');
 var scene, world, debug, camera, cube, road, controls, player, station, ps;
 
 let lost = false;
@@ -35,6 +36,7 @@ let distanceCounter = 0;
 let coinsCollected = 0;
 let damageTaken = 0;
 let chargeRemaining = 100;
+let inStation = false;
 
 let cars = [];
 let roads = [];
@@ -134,7 +136,8 @@ export default class Game {
       ps.emit(player.getBonnet().setY(3));
     }
 
-    damageTaken = player.damage;
+	damageTaken = player.damage;
+	chargeRemaining = player.charge/player.maxCharge*100;
 
     world.step(PHYSICS_TIMESTEP, PHYSICS_SUBSTEPS);
     
@@ -147,7 +150,7 @@ export default class Game {
       if (distanceCounter % TRAFFIC_INTERVAL == 0 && Math.random() > 0.4)
         this.addTraffic();
 
-      station.setPosition(Math.floor(distanceCounter / 1000) * 1100 + 500);
+      station.setPosition(Math.floor(distanceCounter / 1000) * 1100 + 50);
     }
 
     coins.forEach(coin => {
@@ -187,9 +190,35 @@ export default class Game {
 
     if (station.containsCar(player))
     {
-      player.recharge(1);
-      player.repair(1);
-    }
+	//   player.recharge(1);
+	//   player.repair(1);
+		if (!inStation) {
+			$('#recharge').removeClass('disabled');
+			$('#repair').removeClass('disabled');
+			if (coinsCollected == 0)  {
+				$('#recharge').addClass('disabled');
+				$('#repair').addClass('disabled');
+			} else {
+				console.log(damageTaken);
+				if (damageTaken == 0) {
+					$('#repair').addClass('disabled');
+				} else {
+					$('#repair').removeClass('disabled');
+				}
+				if (chargeRemaining == 100) {
+					$('#recharge').addClass('disabled');
+				} else {
+					$('#recharge').removeClass('disabled');
+				}
+			}
+			$('#station-menu').show();
+			inStation = true;
+			
+		}
+    } else {
+		inStation = false;
+		$('#station-menu').hide();
+	}
 
     if (input[keys.UP] || input[keys.W])
       player.drive();
@@ -325,3 +354,19 @@ export default class Game {
   }
 
 }
+
+$(document).on('click', '#recharge', function(e){
+	coinsCollected--;
+	player.recharge(10);
+	if (player.charge >= player.maxCharge) {
+		$('#recharge').addClass('disabled');
+	}
+});
+
+$(document).on('click', '#repair', function(e){
+	coinsCollected--;
+	player.repair(10);
+	if (player.damage <= 0) {
+		$('#repair').addClass('disabled');
+	}
+});

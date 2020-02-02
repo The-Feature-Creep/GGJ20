@@ -8,14 +8,11 @@ import './../node_modules/materialize-css/dist/css/materialize.css';
 import './../node_modules/materialize-css/dist/js/materialize';
 import './../node_modules/jquery/dist/jquery';
 import './ui/css/styles.css';
-import './ui/js/scripts.js';
 
-
+var $ = require('jquery');
 var container, stats, renderer, game;
 let lastTime = 0.0;
 
-init();
-update(lastTime);
 
 function init() {
   container = document.getElementById( 'container' );
@@ -65,3 +62,49 @@ function onMouseMove(event) {
 function onMouseDown(event) {
   game.onMouseDown(event);
 }
+
+
+// Jquery
+$(document).on('click', '#start-game', function(){
+	$('body').addClass('loaded');
+	init();
+	update(lastTime);
+	setTimeout(function () {
+		$('#loader-wrapper').hide();
+		$('#start-menu').hide();
+	}, 1500);
+});
+
+$(document).on('click', '#end-game', function(){
+	$('body').removeClass('loaded');
+	$('#loader-wrapper').show();
+	$('#start-menu').show();
+	$('.shader').hide();
+	$('#in-game-menu').hide();
+	window.location.href = '/';
+});
+
+$(document).on('click', '#close-station-menu', function(){
+	$('.shader').hide();
+	$('#station-menu').hide();
+});
+
+$(document).on('click', '#show-in-game-menu', function(){
+	$('.shader').show();
+	$('#in-game-menu').show();
+});
+
+$(document).on('click', '#hide-in-game-menu', function(){
+	$('.shader').hide();
+	$('#in-game-menu').hide();
+});
+
+$(document).on('click', '#show-credits', function(){
+	$('#menu-card').hide();
+	$('#credits-card').show();
+});
+
+$(document).on('click', '#hide-credits', function(){
+	$('#menu-card').show();
+	$('#credits-card').hide();
+});

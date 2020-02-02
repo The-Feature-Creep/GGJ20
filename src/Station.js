@@ -64,26 +64,26 @@ export default class Station extends THREE.Object3D {
     charge1_top.rotation.z += Math.PI/2;
     charge1_top.position.y = 6;
     charge1_top.position.x = 18;
-    charge1_top.position.z = 6
+    charge1_top.position.z = 5
     this.add(charge1_top);
     
     var charge2_top = new THREE.Mesh(charge_top_geometry, station_top_material);
     charge2_top.rotation.z += Math.PI/2;
     charge2_top.position.y = 6;
     charge2_top.position.x = 18;
-    charge2_top.position.z = -6
+    charge2_top.position.z = -5
     this.add(charge2_top);
 
     var charge1 = new THREE.Mesh(charge_geometry, station_material);
     charge1.position.y = 3;
     charge1.position.x = 18;
-    charge1.position.z = -6
+    charge1.position.z = -5
     this.add(charge1);
 
     var charge2 = new THREE.Mesh(charge_geometry, station_material);
     charge2.position.y = 3;
     charge2.position.x = 18;
-    charge2.position.z = 6
+    charge2.position.z = 5
     this.add(charge2);
 
     var loader = new THREE.FontLoader();
@@ -156,9 +156,46 @@ export default class Station extends THREE.Object3D {
     window1.position.z = -8;
     this.add(window1);
     
-    var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
-    var cylinder = new THREE.Mesh(cylinder_geometry, window_material);
-    this.add(cylinder);
+    // var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
+    // var cylinder = new THREE.Mesh(cylinder_geometry, window_material);
+	// this.add(cylinder);
+	
+	var curve_shape = new THREE.Shape()
+		curve_shape.moveTo(-4, 0);
+		curve_shape.bezierCurveTo(5,0,2,8,10,10);
+		curve_shape.lineTo(10,2);
+		curve_shape.bezierCurveTo(6,4,8,-6,-4,-6);
+		curve_shape.lineTo(-4,0);
+		
+		var curve_extrudeSettings = { depth: 0.00001, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 0, bevelThickness: 1 };
+		var geometry = new THREE.ExtrudeGeometry(curve_shape, curve_extrudeSettings);
+		var material = new THREE.MeshLambertMaterial( { color: 0x6c5b7b, wireframe: false,  side: THREE.DoubleSide} );
+		
+		var curve_entrance = new THREE.Mesh( geometry, material );
+		curve_entrance.rotation.x += Math.PI/2;
+		curve_entrance.rotation.z += Math.PI/2;
+		curve_entrance.position.x = 29;
+		curve_entrance.position.y = -0.6
+		curve_entrance.position.z = -50;
+		curve_entrance.scale.set(4,4,4);
+		this.add(curve_entrance);
+
+		var curve_exit = new THREE.Mesh( geometry, material );
+		curve_exit.rotation.x -= Math.PI/2;
+		curve_exit.rotation.z += Math.PI/2;
+		curve_exit.position.x = 29;
+		curve_exit.position.y = -0.6
+		curve_exit.position.z = 50;
+		curve_exit.scale.set(4,4,4);
+		this.add(curve_exit);
+
+		var floor_geometry = new THREE.PlaneGeometry(24, 20);
+		var floor = new THREE.Mesh(floor_geometry, material);
+		floor.rotation.x -= Math.PI/2;
+		floor.position.x = 9;
+		floor.position.y = -0.6
+		this.add(floor);
+
 
     this.body = new CANNON.Body({
       mass: 0, // kg

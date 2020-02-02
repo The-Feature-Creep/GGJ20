@@ -139,9 +139,9 @@ export default class Truck extends Car {
 		window2_body.position.z = 17.5;
 		this.add(window2_body);
 
-		var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
-		var cylinder = new THREE.Mesh(cylinder_geometry, body_material);
-		this.add(cylinder);
+		// var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
+		// var cylinder = new THREE.Mesh(cylinder_geometry, body_material);
+		// this.add(cylinder);
 
 		this.scale.set(Truck.SCALE, Truck.SCALE, Truck.SCALE);
 		
