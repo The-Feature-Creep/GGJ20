@@ -150,7 +150,7 @@ export default class Game {
       if (distanceCounter % TRAFFIC_INTERVAL == 0 && Math.random() > 0.4)
         this.addTraffic();
 
-      station.setPosition(Math.floor(distanceCounter / 1000) * 1100 + 500);
+      station.setPosition(Math.floor(distanceCounter / 1000) * 1100 + 50);
     }
 
     coins.forEach(coin => {
@@ -195,15 +195,20 @@ export default class Game {
 		if (!inStation) {
 			$('#recharge').removeClass('disabled');
 			$('#repair').removeClass('disabled');
+			$('#upgrade-battery').removeClass('disabled');
 			if (coinsCollected == 0)  {
 				$('#recharge').addClass('disabled');
 				$('#repair').addClass('disabled');
+				$('#upgrade-battery').addClass('disabled');
 			} else {
 				console.log(damageTaken);
 				if (damageTaken == 0) {
 					$('#repair').addClass('disabled');
 				} else {
 					$('#repair').removeClass('disabled');
+				}
+				if (coinsCollected < 10) {
+					$('#upgrade-battery').addClass('disabled');
 				}
 				if (chargeRemaining == 100) {
 					$('#recharge').addClass('disabled');
@@ -368,6 +373,9 @@ $(document).on('click', '#recharge', function(e){
 		$('#recharge').addClass('disabled');
 		$('#repair').addClass('disabled');
 	}
+	if (coinsCollected < 10) {
+		$('#upgrade-battery').addClass('disabled');
+	}
 });
 
 $(document).on('click', '#repair', function(e){
@@ -379,5 +387,21 @@ $(document).on('click', '#repair', function(e){
 	if (coinsCollected == 0){
 		$('#recharge').addClass('disabled');
 		$('#repair').addClass('disabled');
+	}
+	if (coinsCollected < 10) {
+		$('#upgrade-battery').addClass('disabled');
+	}
+});
+
+$(document).on('click', '#upgrade-battery', function(e){
+	coinsCollected -= 10;
+	player.maxCharge+=50;
+	if (coinsCollected < 10) {
+		$('#upgrade-battery').addClass('disabled');
+	}
+	if (coinsCollected == 0){
+		$('#recharge').addClass('disabled');
+		$('#repair').addClass('disabled');
+		$('#upgrade-battery').addClass('disabled');
 	}
 });

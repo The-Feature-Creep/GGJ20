@@ -189,3 +189,9 @@ h3 {
 	width: initial;
 	bottom: 70px;
 }
+
+#show-instructions{
+	position: absolute;
+	width: initial;
+	bottom: 140px;
+}
