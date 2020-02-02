@@ -83,6 +83,9 @@ export default class Game {
     
     var station = new Station();
     scene.add(station);
+    world.addBody(station.body);
+    world.addBody(station.pillarBody1);
+    world.addBody(station.pillarBody2);
   }
 
   initPhysics() {
@@ -233,7 +236,7 @@ export default class Game {
   }
 
   render(renderer) {
-    //debug.update(); 
+    debug.update(); // turn off for physics debug rendering
     renderer.render(scene, camera);
   }
 

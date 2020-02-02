@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import * as CANNON from 'cannon';
 
 export default class Station extends THREE.Object3D {
 
@@ -52,5 +53,32 @@ export default class Station extends THREE.Object3D {
     var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
     var cylinder = new THREE.Mesh(cylinder_geometry, body_material);
     this.add(cylinder);
+
+    this.body = new CANNON.Body({
+      mass: 0, // kg
+      position: new CANNON.Vec3(this.position.x - 10, 6, this.position.z), // m
+      shape: new CANNON.Box(new CANNON.Vec3(10, 10, 16)),
+      material: new CANNON.Material("stationMaterial")
+    });
+
+    let cylinderShape = new CANNON.Cylinder(1, 1, 10, 8);
+    var quat = new CANNON.Quaternion();
+    quat.setFromAxisAngle(new CANNON.Vec3(1,0,0), -Math.PI/2);
+    var translation = new CANNON.Vec3(0,0,0);
+    cylinderShape.transformAllPoints(translation, quat);
+
+    this.pillarBody1 = new CANNON.Body({
+      mass: 0, // kg
+      position: new CANNON.Vec3(this.position.x + 18, 4.5, this.position.z + 13), // m
+      shape: cylinderShape,
+      material: new CANNON.Material("stationMaterial")
+    });
+
+    this.pillarBody2 = new CANNON.Body({
+      mass: 0, // kg
+      position: new CANNON.Vec3(this.position.x + 18, 4.5, this.position.z - 13), // m
+      shape: cylinderShape,
+      material: new CANNON.Material("stationMaterial")
+    });
   }
 }
