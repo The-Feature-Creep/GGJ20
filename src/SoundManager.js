@@ -74,6 +74,10 @@ let backup = new Howl({
   loop: true
 });
 
+let trombone = new Howl({
+  src: ['sounds/sadtrombone.ogg']
+});
+
 class SoundManager {
 
   playHitSound() {
@@ -99,6 +103,8 @@ class SoundManager {
   playDriveSound() {
     drive.play();
     backup.play();
+    backup.volume(0);
+    drive.volume(0);
   }
 
   setDriveSoundVol(vol) {
@@ -107,6 +113,10 @@ class SoundManager {
 
   setReverseSoundVol(vol) {
     backup.volume(vol);
+  }
+
+  playSadTrombone() {
+    sadtrombone.play();
   }
 
 }
