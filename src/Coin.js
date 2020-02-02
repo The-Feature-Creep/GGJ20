@@ -9,11 +9,12 @@ export default class Coin extends THREE.Object3D {
 
     this.collected = false;
     this.finished = false;
+    this.counter = 0;
 
     var geometry = new THREE.CylinderBufferGeometry( 8, 8, 2, 32 );
     geometry.rotateX(Math.PI/2);
-    var material = new THREE.MeshPhongMaterial({ color: 0xffd271, flatShading: true });
-    this.body = new THREE.Mesh(geometry, material);
+    this.material = new THREE.MeshPhongMaterial({ color: 0xffd271, flatShading: true, transparent: true });
+    this.body = new THREE.Mesh(geometry, this.material);
     this.add(this.body);
 
     this.position.y = 1.5;
@@ -32,15 +33,25 @@ export default class Coin extends THREE.Object3D {
     if (this.collected)
     {
       this.position.y += 1;
+      var s = Coin.SCALE + this.counter / 50;
+      this.scale.set(s, s, s);
+      this.material.opacity = 1 - this.counter / 20;
+    }
+    else
+    {
+      this.position.y = 2 + Math.sin(this.counter / 8) / 2;
     }
 
     if (this.position.y > 20)
       this.finished = true;
 
+    this.counter++;
+
   }
 
   collect() {
     this.collected = true;
+    this.counter = 0;
   }
 }
 
