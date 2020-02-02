@@ -150,7 +150,7 @@ export default class Game {
       if (distanceCounter % TRAFFIC_INTERVAL == 0 && Math.random() > 0.4)
         this.addTraffic();
 
-      station.setPosition(Math.floor(distanceCounter / 1000) * 1100 + 50);
+      station.setPosition(Math.floor(distanceCounter / 1000) * 1100 + 500);
     }
 
     coins.forEach(coin => {
@@ -308,7 +308,10 @@ export default class Game {
   }
 
   onLose() {
-    SoundManager.playSadTrombone();
+	SoundManager.playSadTrombone();
+	$('.shader').show();
+	$('#death-menu').show();
+	
   }
 
   updateUI() {
@@ -333,7 +336,7 @@ export default class Game {
   }
 
   render(renderer) {
-    debug.update(); // turn off for physics debug rendering
+    // debug.update(); // turn off for physics debug rendering
     renderer.render(scene, camera);
   }
 
@@ -361,12 +364,20 @@ $(document).on('click', '#recharge', function(e){
 	if (player.charge >= player.maxCharge) {
 		$('#recharge').addClass('disabled');
 	}
+	if (coinsCollected == 0){
+		$('#recharge').addClass('disabled');
+		$('#repair').addClass('disabled');
+	}
 });
 
 $(document).on('click', '#repair', function(e){
 	coinsCollected--;
 	player.repair(10);
-	if (player.damage <= 0) {
+	if (player.damage <= 0 || coinsCollected == 0) {
+		$('#repair').addClass('disabled');
+	}
+	if (coinsCollected == 0){
+		$('#recharge').addClass('disabled');
 		$('#repair').addClass('disabled');
 	}
 });
