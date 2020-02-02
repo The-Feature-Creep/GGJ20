@@ -101,10 +101,10 @@ class SoundManager {
   }
 
   playDriveSound() {
-    drive.play();
-    backup.play();
     backup.volume(0);
     drive.volume(0);
+    backup.play();
+    drive.play();
   }
 
   setDriveSoundVol(vol) {

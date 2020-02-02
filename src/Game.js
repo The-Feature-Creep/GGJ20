@@ -23,7 +23,7 @@ const ROAD_SEGMENTS = 40;
 const COIN_INTERVAL = 20;
 const TRAFFIC_INTERVAL = 40;
 
-let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
+let keys = { A: 65, W: 87, D: 68, S: 83, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 };
 let input = {};
 
 var scene, world, debug, camera, cube, road, controls, player, station, ps;
@@ -191,13 +191,13 @@ export default class Game {
       player.repair(1);
     }
 
-    if (input[keys.UP])
+    if (input[keys.UP] || input[keys.W])
       player.drive();
-    else if (input[keys.DOWN])
+    else if (input[keys.DOWN] || input[keys.S])
       player.brake();
-    if (input[keys.LEFT])
+    if (input[keys.LEFT] || input[keys.A])
       player.turn(-1);
-    if (input[keys.RIGHT])
+    if (input[keys.RIGHT] || input[keys.D])
       player.turn(1);
 
     this.cleanup();
