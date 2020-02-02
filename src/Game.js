@@ -20,7 +20,7 @@ const EPSILON = 0.00001;
 const PHYSICS_TIMESTEP = 1.0 / 60.0;
 const PHYSICS_SUBSTEPS = 4;
 const ROAD_SEGMENTS = 40;
-const COIN_INTERVAL = 20;
+const COIN_INTERVAL = 30;
 const TRAFFIC_INTERVAL = 40;
 
 let keys = { A: 65, W: 87, D: 68, S: 83, LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40 };
