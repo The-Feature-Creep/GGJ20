@@ -51,10 +51,23 @@ export default class RoadSegment extends THREE.Object3D {
 
   testPothole(car) {
 
+    let fl = this.testPosition(car.getWheelFL());
+    let fr = this.testPosition(car.getWheelFR());
+    let bl = this.testPosition(car.getWheelBL());
+    let br = this.testPosition(car.getWheelBR());
+
     // test each wheel for collision with pothole
-    if (this.testPosition(car.getWheelFL()) || this.testPosition(car.getWheelFR()) 
-      || this.testPosition(car.getWheelBL()) || this.testPosition(car.getWheelBR()))
+    if (fl < 0 || fr < 0 || bl < 0 || br < 0)
       car.takeDamage(0.2);
+
+    if (car.wheel1 != null)
+      car.wheel1.position.y = fr * 6;
+    if (car.wheel2 != null)
+      car.wheel2.position.y = fl * 6;
+    if (car.wheel3 != null)
+      car.wheel3.position.y = br * 6;
+    if (car.wheel4 != null)
+      car.wheel4.position.y = bl * 6;
 
   }
 
@@ -66,12 +79,12 @@ export default class RoadSegment extends THREE.Object3D {
     var zzz = (zz / RoadSegment.LENGTH) * RoadSegment.LENGTH_SEGMENTS;
 
     var index = Math.floor(zzz) * (RoadSegment.WIDTH_SEGMENTS + 1) + Math.floor(xxx);
-    var v = false;
+    var v = 0;
 
     if (index >= 0 && index < this.geometry.vertices.length)
       v = this.geometry.vertices[index].z;
 
-    return v < 0;
+    return v;
   }
 
   getValue(x, y) {

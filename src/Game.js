@@ -102,7 +102,7 @@ export default class Game {
   }
 
   update(delta) {
-    //camera.position.set(0, 30, player.position.z - 30);
+    camera.position.set(0, 30, player.position.z - 30);
     controls.target = player.position;
     controls.update();
 
