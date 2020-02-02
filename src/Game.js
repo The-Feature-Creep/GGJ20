@@ -41,7 +41,7 @@ export default class Game {
   constructor(renderer) {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x94d3ac);
-	
+  
     var width = window.innerWidth / 24;
     var height = window.innerHeight / 24;
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
@@ -77,12 +77,12 @@ export default class Game {
 
     // add player
     player = new Player(0, 2, 0);
-    // scene.add(player);
+    scene.add(player);
     cars.push(player);
-	world.add(player.body);
-	
-	var station = new Station();
-	scene.add(station);
+    world.add(player.body);
+    
+    var station = new Station();
+    scene.add(station);
   }
 
   initPhysics() {

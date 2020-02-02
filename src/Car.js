@@ -43,12 +43,12 @@ export default class Car extends THREE.Object3D {
     });
 
     setTimeout(() => {
-    this.body.addEventListener("collide", (e) => {
-      var relativeVelocity = e.contact.getImpactVelocityAlongNormal();
-      if (relativeVelocity >= 0.5)
-        this.takeDamage(relativeVelocity);
-    });
-  }, 1000);
+      this.body.addEventListener("collide", (e) => {
+        var relativeVelocity = e.contact.getImpactVelocityAlongNormal();
+        if (relativeVelocity >= 0.5)
+          this.takeDamage(relativeVelocity);
+      });
+    }, 1000);
   }
 
   takeDamage(amount) {
