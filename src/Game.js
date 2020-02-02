@@ -150,7 +150,7 @@ export default class Game {
     coins.forEach(coin => {
       coin.update(delta);
 
-      if (coin.position.distanceTo(player.position) < 5)
+      if (coin.position.distanceTo(player.position) < 5 && !coin.collected)
       {
         coinsCollected++;
         coin.collect();
@@ -266,6 +266,8 @@ export default class Game {
   updateUI() {
     document.getElementById("power-bar").style.width = (player.charge / player.maxCharge * 100) + "%";
     document.getElementById("integrity-bar").style.width = (player.damage / player.maxDamage * 100) + "%";
+    document.getElementById("distance").innerHTML = distanceCounter + "m";
+    document.getElementById("coins").innerHTML = coinsCollected + " MC";
   }
 
   render(renderer) {
