@@ -11,6 +11,7 @@ import Player from './Player.js';
 import Truck from './Truck.js';
 import Bus from './Bus.js';
 import Sedan from './Sedan.js';
+import Station from './Station.js';
 
 const UP = new THREE.Vector3(0, 1, 0);
 const EPSILON = 0.00001;
@@ -72,9 +73,12 @@ export default class Game {
 
     // add player
     player = new Player(0, 2, 0);
-    scene.add(player);
+    // scene.add(player);
     cars.push(player);
-    world.add(player.body);
+	world.add(player.body);
+	
+	var station = new Station();
+	scene.add(station);
   }
 
   initPhysics() {
@@ -101,7 +105,7 @@ export default class Game {
   }
 
   update(delta) {
-    camera.position.set(0, 30, player.position.z - 30);
+    // camera.position.set(0, 30, player.position.z - 30);
     controls.target = player.position;
     controls.update();
 
