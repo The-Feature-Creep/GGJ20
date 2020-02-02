@@ -23,6 +23,7 @@ export default class Car extends THREE.Object3D {
     this.remove = false;
     this.maxSpeed = 300;
     this.collided = false;
+    this.reversing = false;
 
     this.body = new CANNON.Body({
       mass: this.getMass(), // kg
@@ -125,12 +126,15 @@ export default class Car extends THREE.Object3D {
     this.body.quaternion.toEuler(vector);
     var rx = Math.sin(vector.y);
     var rz = Math.cos(vector.y);
+    this.reversing = dir < 0;
     this.body.applyForce(new CANNON.Vec3(rx * this.maxSpeed * dir, 0, rz * this.maxSpeed * dir), this.body.position);
   }
 
   turn(dir) {
     let speed = Math.min(this.body.velocity.length() * 8, 20 - this.body.velocity.length());
     var quat = new CANNON.Quaternion();
+    if (this.reversing)
+      dir = -dir;
     quat.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -dir * speed * 0.0015);
     this.body.quaternion = quat.mult(this.body.quaternion);
   }
