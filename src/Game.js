@@ -88,6 +88,7 @@ export default class Game {
     world.addBody(station.body);
     world.addBody(station.pillarBody1);
     world.addBody(station.pillarBody2);
+    world.addBody(station.boxBody);
   }
 
   initPhysics() {

@@ -186,6 +186,13 @@ export default class Station extends THREE.Object3D {
       shape: cylinderShape,
       material: new CANNON.Material("stationMaterial")
     });
+
+    this.boxBody = new CANNON.Body({
+      mass: 0, // kg
+      position: new CANNON.Vec3(this.position.x + 18, 4, this.position.z), // m
+      shape: new CANNON.Box(new CANNON.Vec3(1, 4, 10)),
+      material: new CANNON.Material("stationMaterial")
+    }); 
   }
 
   setPosition(z) {
@@ -193,6 +200,7 @@ export default class Station extends THREE.Object3D {
     this.body.position.z = z;
     this.pillarBody1.position.z = z + 13;
     this.pillarBody2.position.z = z - 13;
+    this.boxBody.position.z = z;
   }
 
   containsCar(car) {
