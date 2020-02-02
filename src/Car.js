@@ -3,6 +3,8 @@ import * as CANNON from 'cannon';
 
 import { BasicShader } from './libs/BasicShader.js';
 
+const UP = new THREE.Vector3(0, 1, 0);
+
 export default class Car extends THREE.Object3D {
 
   constructor(x, y, z) {
@@ -17,13 +19,15 @@ export default class Car extends THREE.Object3D {
       fragmentShader: BasicShader.fragmentShader
     };
 
-    this.makeModel();
-
     this.position.y = 1.5;
     this.remove = false;
     this.maxSpeed = 300;
     this.collided = false;
     this.reversing = false;
+    this.wheel1 = null;
+    this.wheel2 = null;
+
+    this.makeModel();
 
     this.body = new CANNON.Body({
       mass: this.getMass(), // kg
@@ -128,9 +132,19 @@ export default class Car extends THREE.Object3D {
     var rz = Math.cos(vector.y);
     this.reversing = dir < 0;
     this.body.applyForce(new CANNON.Vec3(rx * this.maxSpeed * dir, 0, rz * this.maxSpeed * dir), this.body.position);
+  
+    if (this.wheel1 != null)
+      this.wheel1.rotation.y = 0;
+    if (this.wheel2 != null)
+      this.wheel2.rotation.y = 0;
   }
 
   turn(dir) {
+    if (this.wheel1 != null)
+      this.wheel1.rotation.y = -Math.PI/8 * dir;
+    if (this.wheel2 != null)
+      this.wheel2.rotation.y = -Math.PI/8 * dir;
+    
     let speed = Math.min(this.body.velocity.length() * 8, 20 - this.body.velocity.length());
     var quat = new CANNON.Quaternion();
     if (this.reversing)

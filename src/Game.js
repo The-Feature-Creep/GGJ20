@@ -102,7 +102,7 @@ export default class Game {
   }
 
   update(delta) {
-    camera.position.set(0, 30, player.position.z - 30);
+    //camera.position.set(0, 30, player.position.z - 30);
     controls.target = player.position;
     controls.update();
 
@@ -152,12 +152,12 @@ export default class Game {
 
     if (input[keys.UP])
       player.drive();
+    else if (input[keys.DOWN])
+      player.brake();
     if (input[keys.LEFT])
       player.turn(-1);
     if (input[keys.RIGHT])
       player.turn(1);
-    if (input[keys.DOWN])
-      player.brake();
 
     this.cleanup();
   }

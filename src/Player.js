@@ -55,6 +55,9 @@ export default class Player extends Car {
 		rf_wheel.position.x = 13;
 		this.add(rf_wheel);
 
+		this.wheel1 = lf_wheel;
+		this.wheel2 = rf_wheel;
+
 		// Body
 		var bonnet_shape = new THREE.Shape();
 		bonnet_shape.moveTo(0, 0);
