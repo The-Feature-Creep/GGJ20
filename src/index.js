@@ -109,3 +109,13 @@ $(document).on('click', '#hide-credits', function(){
 	$('#menu-card').show();
 	$('#credits-card').hide();
 });
+
+$(document).on('click', '#show-instructions', function(){
+	$('#menu-card').hide();
+	$('#instructions-card').show();
+});
+
+$(document).on('click', '#hide-instructions', function(){
+	$('#menu-card').show();
+	$('#instructions-card').hide();
+});

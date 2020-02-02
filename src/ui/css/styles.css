@@ -170,3 +170,28 @@ h3 {
 .start-menu-btn:hover, .menu-btn:hover{
 	background-color: #59d4e8;
 }
+
+#menu-card{
+	background-position: center;
+	background-size: cover;
+	height: 80vh;
+	position: relative;
+}
+
+#start-game{
+	position: absolute;
+	width: initial;
+	bottom: 0;
+}
+
+#show-credits{
+	position: absolute;
+	width: initial;
+	bottom: 70px;
+}
+
+#show-instructions{
+	position: absolute;
+	width: initial;
+	bottom: 140px;
+}

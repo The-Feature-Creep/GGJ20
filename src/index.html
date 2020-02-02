@@ -44,16 +44,19 @@
 		<div class="menu">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="card hoverable col m6 s10 offset-m3 offset-s1" id="menu-card">
+					<div class="card hoverable col m6 s10 offset-m3 offset-s1" id="menu-card" style="background-image: url(images/cover.png)">
 						<div class="card-content">
 							<div class="row" style="text-align: center">
-								<img class="cover" src="images/cover.png" />
+								<!-- <img class="cover" src="images/cover.png" /> -->
 							</div>
 							<div class="row">
 								<a class="waves-effect waves-light btn-large menu-btn start-menu-btn" id="start-game">Play</a>
 							</div>
 							<div class="row">
 								<a class="waves-effect waves-light btn-large menu-btn start-menu-btn"  id="show-credits">Credits</a>
+							</div>
+							<div class="row">
+								<a class="waves-effect waves-light btn-large menu-btn start-menu-btn"  id="show-instructions">Instructions</a>
 							</div>
 						</div>
 					</div>
@@ -77,6 +80,28 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="card hoverable col m4 s10 offset-m4 offset-s1" style="display: none;" id="instructions-card">
+						<div class="card-content">
+							<div class="row center-align">
+								<h2>INSTRUCTIONS</h2>
+							</div>
+							<div class="row">
+								<ul class="collection">
+									<li class="collection-item">Do not hit cars or drive through potholes</li>
+									<li class="collection-item">Dodge the Elon Bus-ks</li>
+									<li class="collection-item">Collect as many Musk Coins as you can!</li>
+									<li class="collection-item">Stop at the Charge and Repair stations to... wait for it... charge and repair</li>
+									<li class="collection-item">Get as far as you can without breaking down or running out of power</li>
+									<li class="collection-item">Please Enjoy... we beg you...</li>
+								  </ul>
+							</div>
+							<div class="row">
+								<a class="waves-effect waves-light btn-large menu-btn start-menu-btn" id="hide-instructions">Back</a>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -112,6 +137,9 @@
 							</div>
 							<div class="row">
 								<a class="waves-effect waves-light btn-large menu-btn" id="repair"><i class="large material-icons left">build</i> Repair (1 Musk Coin)</a>
+							</div>
+							<div class="row">
+								<a class="waves-effect waves-light btn-large menu-btn" id="upgrade-battery"><i class="large material-icons left">add</i> Battery (10 Musk Coins)</a>
 							</div>
 							<div class="row">
 								<a class="waves-effect waves-light btn-large menu-btn" id="close-station-menu">Exit</a>

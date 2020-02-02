@@ -199,16 +199,24 @@ export default class Game {
 
         $('#recharge').removeClass('disabled');
         $('#repair').removeClass('disabled');
+        $('#upgrade-battery').removeClass('disabled');
 
         if (coinsCollected == 0) {
+
           $('#recharge').addClass('disabled');
           $('#repair').addClass('disabled');
+          $('#upgrade-battery').addClass('disabled');
+
         } else {
 
           if (damageTaken == 0) {
             $('#repair').addClass('disabled');
           } else {
             $('#repair').removeClass('disabled');
+          }
+
+          if (coinsCollected < 10) {
+            $('#upgrade-battery').addClass('disabled');
           }
 
           if (chargeRemaining == 100) {
@@ -366,25 +374,44 @@ export default class Game {
 }
 
 $(document).on('click', '#recharge', function(e){
-  coinsCollected--;
-  player.recharge(10);
-  if (player.charge >= player.maxCharge) {
-    $('#recharge').addClass('disabled');
-  }
-  if (coinsCollected == 0){
-    $('#recharge').addClass('disabled');
-    $('#repair').addClass('disabled');
-  }
+	coinsCollected--;
+	player.recharge(10);
+	if (player.charge >= player.maxCharge) {
+		$('#recharge').addClass('disabled');
+	}
+	if (coinsCollected == 0){
+		$('#recharge').addClass('disabled');
+		$('#repair').addClass('disabled');
+	}
+	if (coinsCollected < 10) {
+		$('#upgrade-battery').addClass('disabled');
+	}
 });
 
 $(document).on('click', '#repair', function(e){
-  coinsCollected--;
-  player.repair(10);
-  if (player.damage <= 0 || coinsCollected == 0) {
-    $('#repair').addClass('disabled');
-  }
-  if (coinsCollected == 0){
-    $('#recharge').addClass('disabled');
-    $('#repair').addClass('disabled');
-  }
+	coinsCollected--;
+	player.repair(10);
+	if (player.damage <= 0 || coinsCollected == 0) {
+		$('#repair').addClass('disabled');
+	}
+	if (coinsCollected == 0){
+		$('#recharge').addClass('disabled');
+		$('#repair').addClass('disabled');
+	}
+	if (coinsCollected < 10) {
+		$('#upgrade-battery').addClass('disabled');
+	}
+});
+
+$(document).on('click', '#upgrade-battery', function(e){
+	coinsCollected -= 10;
+	player.maxCharge+=50;
+	if (coinsCollected < 10) {
+		$('#upgrade-battery').addClass('disabled');
+	}
+	if (coinsCollected == 0){
+		$('#recharge').addClass('disabled');
+		$('#repair').addClass('disabled');
+		$('#upgrade-battery').addClass('disabled');
+	}
 });
