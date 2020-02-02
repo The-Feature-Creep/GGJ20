@@ -158,7 +158,7 @@ export default class Car extends THREE.Object3D {
 
   turn(dir) {
     var t = -Math.PI/4 * dir;
-    this.wheelRot += (t - this.wheelRot)/8;
+    this.wheelRot += (t - this.wheelRot)/4;
 
     let speed = Math.min(this.body.velocity.length() * 8, 20 - this.body.velocity.length());
     var quat = new CANNON.Quaternion();
