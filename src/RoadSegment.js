@@ -75,6 +75,9 @@ export default class RoadSegment extends THREE.Object3D {
     var xx = (position.x - this.position.x) + RoadSegment.WIDTH / 2;
     var zz = (position.z - this.position.z) + RoadSegment.LENGTH / 2;
 
+    if (xx > RoadSegment.WIDTH || xx < 0) 
+      return 0;
+
     var xxx = (xx / RoadSegment.WIDTH) * RoadSegment.WIDTH_SEGMENTS;
     var zzz = (zz / RoadSegment.LENGTH) * RoadSegment.LENGTH_SEGMENTS;
 
