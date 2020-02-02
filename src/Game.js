@@ -196,7 +196,7 @@ export default class Game {
 
     this.cleanup();
 
-    if (frameCounter % 10 == 0)
+    if (frameCounter % 3 == 0)
       this.updateUI();
     frameCounter++;
     particleCounter++;
@@ -268,6 +268,20 @@ export default class Game {
     document.getElementById("integrity-bar").style.width = (player.damage / player.maxDamage * 100) + "%";
     document.getElementById("distance").innerHTML = distanceCounter + "m";
     document.getElementById("coins").innerHTML = coinsCollected + " MC";
+
+    if (player.charge / player.maxCharge < 0.2)
+      document.getElementById("power-bar").style.backgroundColor = "#ff0000";
+    else if (player.charge / player.maxCharge < 0.4)
+      document.getElementById("power-bar").style.backgroundColor = "#ffcc00";
+    else
+      document.getElementById("power-bar").style.backgroundColor = "#26a69a";
+
+    if (player.damage / player.maxDamage > 0.8)
+      document.getElementById("integrity-bar").style.backgroundColor = "#ff0000";
+    else if (player.damage / player.maxDamage > 0.6)
+      document.getElementById("integrity-bar").style.backgroundColor = "#ffcc00";
+    else
+      document.getElementById("integrity-bar").style.backgroundColor = "#26a69a";
   }
 
   render(renderer) {
