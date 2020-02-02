@@ -82,6 +82,32 @@ export default class Car extends THREE.Object3D {
     this.body.quaternion = quat.mult(this.body.quaternion);
   }
 
+  getWheelFR() {
+    return this.calcRotation(3.4, 1.8);
+  }
+
+  getWheelFL() {
+    return this.calcRotation(3.4, -1.8);
+  }
+
+  getWheelBR() {
+    return this.calcRotation(-2.6, 1.8);
+  }
+
+  getWheelBL() {
+    return this.calcRotation(-2.6, -1.8);
+  }
+
+  calcRotation(px, pz) {
+    var vector = new CANNON.Vec3();
+    this.body.quaternion.toEuler(vector);
+    var s = Math.cos(vector.y);
+    var c = Math.sin(vector.y);
+    var nx = px * c - pz * s;
+    var nz = px * s + pz * c;
+    return this.position.clone().add(new THREE.Vector3(nx, 0, nz));
+  }
+
   update(delta) {
     this.shader.uniforms["amount"].value *= 0.7 - delta;
 
@@ -95,7 +121,6 @@ export default class Car extends THREE.Object3D {
   }
 
   drive(dir = 1) {
-    var rot = this.body.quaternion.toAxisAngle(new CANNON.Vec3(0, 0, 1));
     var vector = new CANNON.Vec3();
     this.body.quaternion.toEuler(vector);
     var rx = Math.sin(vector.y);

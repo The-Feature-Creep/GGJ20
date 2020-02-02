@@ -142,6 +142,8 @@ export default class Game {
       var dz = player.position.z - road.position.z;
       if (Math.abs(dz) > ROAD_SEGMENTS * RoadSegment.LENGTH/2)
         road.position.z += RoadSegment.LENGTH * ROAD_SEGMENTS * (dz > 0 ? 1 : -1);
+      if (Math.abs(dz) < RoadSegment.LENGTH/2 && road.testPothole(player))
+        player.takeDamage(0.2);
     });
 
     if (input[keys.UP])
@@ -153,6 +155,7 @@ export default class Game {
     if (input[keys.DOWN])
       player.brake();
 
+    this.checkPotholes();
     this.cleanup();
   }
 
@@ -185,6 +188,10 @@ export default class Game {
 
     if (lane > 1)
       car.rotateY(Math.PI);
+  }
+
+  checkPotholes() {
+
   }
 
   cleanup() {

@@ -8,32 +8,25 @@ export default class RoadSegment extends THREE.Object3D {
 
     noise.seed(Math.random());
 
-    var geometry = new THREE.PlaneGeometry(RoadSegment.WIDTH, RoadSegment.LENGTH, RoadSegment.WIDTH_SEGMENTS, RoadSegment.LENGTH_SEGMENTS);
+    this.geometry = new THREE.PlaneGeometry(RoadSegment.WIDTH, RoadSegment.LENGTH, RoadSegment.WIDTH_SEGMENTS, RoadSegment.LENGTH_SEGMENTS);
 
     for (var i = 0; i <= RoadSegment.LENGTH_SEGMENTS; i++)
     {
       for (var j = 0; j <= RoadSegment.WIDTH_SEGMENTS; j++)
       {
-        var value = noise.simplex2(i / 24, j / 24) + 0.8;
-
-        if (i < 4 || i > 28)
-        {
-          value = 0;
-        }
-
-        value = Math.min(0, value * 3);
+        var value = this.getValue(i, j);
 
         // lines
         if ((i > 4 && i < 16 || j == 32) && j % 16 == 0 && j > 0 && j < RoadSegment.WIDTH_SEGMENTS && value == 0) value = 0.01;
 
-        geometry.vertices[i * (RoadSegment.WIDTH_SEGMENTS + 1) + j].z += value;
+        this.geometry.vertices[i * (RoadSegment.WIDTH_SEGMENTS + 1) + j].z += value;
       }
     }
 
-    geometry.faces.forEach(f => {
-      const a = geometry.vertices[f.a];
-      const b = geometry.vertices[f.b];
-      const c = geometry.vertices[f.c];
+    this.geometry.faces.forEach(f => {
+      const a = this.geometry.vertices[f.a];
+      const b = this.geometry.vertices[f.b];
+      const c = this.geometry.vertices[f.c];
 
       const avgz = (a.z+b.z+c.z)/3;
 
@@ -42,18 +35,56 @@ export default class RoadSegment extends THREE.Object3D {
       else f.color.set(RoadSegment.ROAD_COLOR);
     });
 
-    geometry.verticesNeedUpdate = true;
-    geometry.colorsNeedUpdate = true;
+    this.geometry.verticesNeedUpdate = true;
+    this.geometry.colorsNeedUpdate = true;
 
-    geometry.computeFaceNormals();
-    geometry.computeVertexNormals();
+    this.geometry.computeFaceNormals();
+    this.geometry.computeVertexNormals();
 
     var material = new THREE.MeshPhongMaterial({ vertexColors: THREE.VertexColors, flatShading: true });
-    var plane = new THREE.Mesh(geometry, material);
+    var plane = new THREE.Mesh(this.geometry, material);
 
     plane.rotation.x = -Math.PI / 2;
 
     this.add(plane);
+  }
+
+  testPothole(car) {
+
+    // test each wheel for collision with pothole
+    if (this.testPosition(car.getWheelFL()) || this.testPosition(car.getWheelFR()) 
+      || this.testPosition(car.getWheelBL()) || this.testPosition(car.getWheelBR()))
+      car.takeDamage(0.2);
+
+  }
+
+  testPosition(position) {
+    var xx = (position.x - this.position.x) + RoadSegment.WIDTH / 2;
+    var zz = (position.z - this.position.z) + RoadSegment.LENGTH / 2;
+
+    var xxx = (xx / RoadSegment.WIDTH) * RoadSegment.WIDTH_SEGMENTS;
+    var zzz = (zz / RoadSegment.LENGTH) * RoadSegment.LENGTH_SEGMENTS;
+
+    var index = Math.floor(zzz) * (RoadSegment.WIDTH_SEGMENTS + 1) + Math.floor(xxx);
+    var v = false;
+
+    if (index >= 0 && index < this.geometry.vertices.length)
+      v = this.geometry.vertices[index].z;
+
+    return v < 0;
+  }
+
+  getValue(x, y) {
+    var value = noise.simplex2(x / 24, y / 24) + 0.8;
+
+    if (x < 4 || x > 28)
+    {
+      value = 0;
+    }
+
+    value = Math.min(0, value * 3);
+
+    return value;
   }
 }
 
