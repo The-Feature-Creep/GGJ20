@@ -132,7 +132,6 @@ export default class Player extends Car {
 		sbw_window.position.x = 13.1;
 		this.add(sbw_window);
 
-
 		var cylinder_geometry = new  THREE.CylinderBufferGeometry( 0.1, 0.1, 100, 32 );
 		var cylinder = new THREE.Mesh(cylinder_geometry, body_material);
 		this.add(cylinder);
