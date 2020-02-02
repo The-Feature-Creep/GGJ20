@@ -116,7 +116,7 @@ class SoundManager {
   }
 
   playSadTrombone() {
-    sadtrombone.play();
+    trombone.play();
   }
 
 }

@@ -28,6 +28,7 @@ let input = {};
 
 var scene, world, debug, camera, cube, road, controls, player, station, ps;
 
+let lost = false;
 let frameCounter = 0;
 let particleCounter = 0;
 let distanceCounter = 0;
@@ -208,6 +209,12 @@ export default class Game {
 
     SoundManager.setDriveSoundVol(Math.min(1, player.getSpeed() / 4));
     SoundManager.setReverseSoundVol(Math.min(player.reversing ? 1:0, player.getSpeed() / 4));
+
+    if (!lost && (player.damage >= player.maxDamage || player.charge <= 0))
+    {
+      lost = true;
+      this.onLose();
+    }
   }
 
   addCoin() {
@@ -269,6 +276,10 @@ export default class Game {
         coins.splice(i, 1);
       }
     }
+  }
+
+  onLose() {
+    SoundManager.playSadTrombone();
   }
 
   updateUI() {
