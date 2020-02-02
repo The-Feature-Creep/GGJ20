@@ -28,6 +28,7 @@ let input = {};
 var scene, world, debug, camera, cube, road, controls, player, station, ps;
 
 let frameCounter = 0;
+let particleCounter = 0;
 let distanceCounter = 0;
 let coinsCollected = 0;
 let damageTaken = 0;
@@ -124,7 +125,11 @@ export default class Game {
     controls.update();
 
     ps.update(camera, delta);
-    ps.emit(player.getBonnet().setY(3));
+    if (particleCounter >= (player.maxDamage - player.damage) && player.damage > player.maxDamage * 0.8)
+    {
+      particleCounter = 0;
+      ps.emit(player.getBonnet().setY(3));
+    }
 
     damageTaken = player.damage;
 
@@ -194,6 +199,7 @@ export default class Game {
     if (frameCounter % 10 == 0)
       this.updateUI();
     frameCounter++;
+    particleCounter++;
   }
 
   addCoin() {
