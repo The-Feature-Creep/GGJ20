@@ -48,6 +48,7 @@ export default class Car extends THREE.Object3D {
     setTimeout(() => {
       this.body.addEventListener("collide", (e) => {
         var relativeVelocity = e.contact.getImpactVelocityAlongNormal();
+        console.log(e);
         if (relativeVelocity >= 0.5)
           this.takeDamage(relativeVelocity);
       });

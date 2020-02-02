@@ -12,6 +12,7 @@ import Truck from './Truck.js';
 import Bus from './Bus.js';
 import Sedan from './Sedan.js';
 import Station from './Station.js';
+import ParticleSystem from './ParticleSystem.js';
 
 const UP = new THREE.Vector3(0, 1, 0);
 const EPSILON = 0.00001;
@@ -24,7 +25,7 @@ const TRAFFIC_INTERVAL = 40;
 let keys = { LEFT: 65, UP: 87, RIGHT: 68, DOWN: 83 };
 let input = {};
 
-var scene, world, debug, camera, cube, road, controls, player, station;
+var scene, world, debug, camera, cube, road, controls, player, station, ps;
 
 let frameCounter = 0;
 let distanceCounter = 0;
@@ -64,6 +65,9 @@ export default class Game {
     var ambient = new THREE.AmbientLight(0x666666); // soft white light
     scene.add(light);
     scene.add(ambient);
+
+    ps = new ParticleSystem({ particleColor: 0xffffff });
+    scene.add(ps);
 
     this.initPhysics();
 
@@ -115,9 +119,12 @@ export default class Game {
   }
 
   update(delta) {
-    camera.position.set(0, 25, player.position.z - 40);
+    //camera.position.set(0, 25, player.position.z - 40);
     controls.target = player.position;
     controls.update();
+
+    ps.update(camera, delta);
+    ps.emit(player.position.clone().setY(3));
 
     damageTaken = player.damage;
 
