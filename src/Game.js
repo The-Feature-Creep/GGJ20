@@ -26,6 +26,7 @@ let input = {};
 var scene, world, debug, camera, cube, road, controls, player;
 
 let distanceCounter = 0;
+let coinsCollected = 0;
 let cars = [];
 let roads = [];
 let coins = [];
@@ -121,7 +122,10 @@ export default class Game {
       coin.update(delta);
 
       if (coin.position.distanceTo(player.position) < 5)
+      {
+        coinsCollected++;
         coin.collect();
+      }
       else if (coin.position.distanceTo(player.position) > 200)
         coin.finished = true;
     });
@@ -155,7 +159,6 @@ export default class Game {
     if (input[keys.DOWN])
       player.brake();
 
-    this.checkPotholes();
     this.cleanup();
   }
 
@@ -188,10 +191,6 @@ export default class Game {
 
     if (lane > 1)
       car.rotateY(Math.PI);
-  }
-
-  checkPotholes() {
-
   }
 
   cleanup() {
