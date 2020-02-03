@@ -82,7 +82,7 @@ $(document).on('click', '#end-game', function(){
 	$('#start-menu').show();
 	$('.shader').hide();
 	$('#in-game-menu').hide();
-	window.location.href = '/';
+	window.location.reload();
 });
 
 $(document).on('click', '#close-station-menu', function(){
