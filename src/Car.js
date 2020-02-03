@@ -9,7 +9,7 @@ const UP = new THREE.Vector3(0, 1, 0);
 
 export default class Car extends THREE.Object3D {
 
-  constructor(x, y, z) {
+  constructor(x, y, z, player) {
     super();
 
     this.shader = {
@@ -20,6 +20,9 @@ export default class Car extends THREE.Object3D {
       vertexShader: BasicShader.vertexShader,
       fragmentShader: BasicShader.fragmentShader
     };
+
+    if (player == null)
+      player = this;
 
     this.position.y = 1.5;
     this.remove = false;
@@ -51,16 +54,18 @@ export default class Car extends THREE.Object3D {
     setTimeout(() => {
       this.body.addEventListener("collide", (e) => {
         var relativeVelocity = e.contact.getImpactVelocityAlongNormal();
+        let dist = (60 - this.position.distanceTo(player.position))/60;
+        let vol = Math.min(1, Math.max(0, dist));
         if (relativeVelocity >= 0.5)
         {
           this.takeDamage(relativeVelocity);
-          SoundManager.playHitSound();
+          SoundManager.playHitSound(vol);
         }
 
         if (e.target.material.name === "carMaterial" && e.body.material.name === "carMaterial" && !this.honked)
         {
           this.honked = true;
-          SoundManager.playHornSound();
+          SoundManager.playHornSound(vol);
         }
       });
     }, 1000);

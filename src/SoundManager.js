@@ -80,14 +80,18 @@ let trombone = new Howl({
 
 class SoundManager {
 
-  playHitSound() {
+  playHitSound(vol) {
     let sounds = [impact1, impact2, impact3, impact4];
-    sounds[Math.floor(Math.random() * sounds.length)].play();
+    let s = sounds[Math.floor(Math.random() * sounds.length)];
+    s.volume(vol);
+    s.play();
   }
 
-  playHornSound() {
+  playHornSound(vol) {
     let sounds = [horn1, horn2, horn3];
-    sounds[Math.floor(Math.random() * sounds.length)].play();
+    let s = sounds[Math.floor(Math.random() * sounds.length)];
+    s.volume(vol);
+    s.play();
   }
 
   playCoinSound() {

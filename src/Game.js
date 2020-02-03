@@ -251,7 +251,7 @@ export default class Game {
     frameCounter++;
     particleCounter++;
 
-    SoundManager.setDriveSoundVol(Math.min(1, player.getSpeed() / 4));
+    SoundManager.setDriveSoundVol(Math.min(0.6, player.getSpeed() / 4));
     SoundManager.setReverseSoundVol(Math.min(player.reversing ? 1:0, player.getSpeed() / 4));
 
     if (!lost && (player.damage >= player.maxDamage || player.charge <= 0))
@@ -278,9 +278,9 @@ export default class Game {
     var car = null;
 
     switch (type) {
-      case 0: car = new Truck(x, y, z); break;
-      case 1: car = new Bus(x, y, z); break;
-      case 2: car = new Sedan(x, y, z); break;
+      case 0: car = new Truck(x, y, z, player); break;
+      case 1: car = new Bus(x, y, z, player); break;
+      case 2: car = new Sedan(x, y, z, player); break;
     }
 
     scene.add(car);
